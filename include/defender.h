@@ -23,6 +23,12 @@ typedef struct menu {
     sfIntRect rect;
 } menu_t;
 
+typedef struct player {
+    int money;
+    int waves;
+    int monster_killed;
+} player_t;
+
 menu_t *init_menu(char *);
 
 #endif /*DEFENDER_H_*/
