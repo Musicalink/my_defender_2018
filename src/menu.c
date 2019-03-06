@@ -43,6 +43,8 @@ int display_menu(menu_t *menu, sfRenderWindow *window)
     while (sfRenderWindow_pollEvent(window, &event)) {
 	if (event.type == sfEvtClosed)
 	    sfRenderWindow_close(window);
+	else if (event.type == sfEvtMouseButtonPressed)
+	    //check_mouse_pos(window);
     }
     sfRenderWindow_clear(window, sfBlack);
     sfRenderWindow_drawSprite(window, menu->sprite, NULL);
