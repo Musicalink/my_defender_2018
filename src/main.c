@@ -10,7 +10,7 @@
 int main(int ac, char **av)
 {
     //test {
-    menu_t *menu = init_menu("./ressources/menu.png");
+    menu_t *menu = init_menu("./ressources/menu.jpg");
     sfVideoMode mode = {1920, 1080, 60};
     sfRenderWindow *window;
     window = sfRenderWindow_create(mode, "Runner", sfTitlebar | sfClose , NULL);

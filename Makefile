@@ -14,13 +14,12 @@ NAME    =       my_defender
 
 CFLAGS  =       -Iinclude
 
-SFFLAGS =       -lcsfml-graphics -lcsfml-system -lcsfml-window -lcsfml-audio -g
+SFFLAGS =       -lcsfml-graphics -lcsfml-system -lcsfml-window -lcsfml-audio
 
 all:    $(NAME)
 
-$(NAME):	
+$(NAME):	$(OBJ)
 		make -C ./lib/my
-		$(OBJ)
 		gcc -o $(NAME) $(OBJ) $(SFFLAGS) $(CFLAGS)
 
 clean:
