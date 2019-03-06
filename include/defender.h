@@ -15,6 +15,7 @@
 #include <SFML/Graphics.h>
 #include "totem.h"
 #include "monster.h"
+#include "my.h"
 
 typedef struct menu {
     sfRenderWindow *window;
@@ -24,4 +25,5 @@ typedef struct menu {
 } menu_t;
 
 menu_t *init_menu(char *);
+
 #endif /*DEFENDER_H_*/

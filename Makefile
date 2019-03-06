@@ -18,8 +18,10 @@ SFFLAGS =       -lcsfml-graphics -lcsfml-system -lcsfml-window -lcsfml-audio
 
 all:    $(NAME)
 
-$(NAME):        $(OBJ)
-	gcc -o $(NAME) $(OBJ) $(SFFLAGS) $(CFLAGS)
+$(NAME):	
+		make -C ./lib/my
+		$(OBJ)
+		gcc -o $(NAME) $(OBJ) $(SFFLAGS) $(CFLAGS)
 
 clean:
 	rm -f $(OBJ)
