@@ -33,9 +33,26 @@ menu_t *init_menu(char *ressources)
     sfSprite_setPosition(menu->sprite, pos);
     sfSprite_setTexture(menu->sprite, menu->texture, sfTrue);
     sfSprite_setTextureRect(menu->sprite, menu->rect);
+    return (menu);
 }
 
-int game_menu(menu_t *menu)
+int display_menu(menu_t *menu, sfRenderWindow *window)
 {
-    
+    sfEvent event;
+
+    while (sfRenderWindow_pollEvent(window, &event)) {
+	if (event.type == sfEvtClosed)
+	    sfRenderWindow_close(window);
+    }
+    sfRenderWindow_clear(window, sfBlack);
+    sfRenderWindow_drawSprite(window, menu->sprite, NULL);
+}
+
+int game_menu(menu_t *menu, sfRenderWindow *window)
+{
+    while (sfRenderWindow_isOpen(window)) {
+	display_menu(menu, window);
+	sfRenderWindow_display(window);
+    }
+    sfRenderWindow_destroy(window);
 }

@@ -18,7 +18,6 @@
 #include "my.h"
 
 typedef struct menu {
-    sfRenderWindow *window;
     sfSprite *sprite;
     sfTexture *texture;
     sfIntRect rect;
