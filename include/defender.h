@@ -13,6 +13,8 @@
 #include <SFML/System/Types.h>
 #include <SFML/Audio.h>
 #include <SFML/Graphics.h>
+#include "totem.h"
+#include "monster.h"
 
 typedef struct menu {
     sfRenderWindow *window;
