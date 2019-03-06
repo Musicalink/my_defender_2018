@@ -24,4 +24,4 @@ typedef struct menu {
 } menu_t;
 
 menu_t *init_menu(char *);
-#endif /*LEMIN_H_*/
+#endif /*DEFENDER_H_*/
