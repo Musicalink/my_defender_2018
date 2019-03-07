@@ -26,19 +26,45 @@ player_t *generate_game(void)
     return (player);
 }
 
-void my_click_event(player_t *player, sfVector2i cursor_pos)
+int is_it_in(int to_try, int exone, int extwo)
 {
-    int is_it_touched = 0;
+    if (to_try > exone && to_try < extwo)
+        return (1);
+    return (0);
+}
 
-    for (int i = 0; player->totems[i] != NULL; i++) {
-        is_it_touched += (cursor_pos.x > player->totems[i]->pos.x) ? 1 : 0;
-        is_it_touched += (cursor_pos.x < player->totems[i]->pos.x + 78) ? 1 : 0;
-        is_it_touched += (cursor_pos.y > player->totems[i]->pos.y) ? 1 : 0;
-        is_it_touched += (cursor_pos.y < player->totems[i]->pos.y + 78) ? 1 : 0;
-        if (is_it_touched == 4)
-            printf("Totem %d touched\n", i);
-        is_it_touched = 0;
-    }
+totem_t *chose_totem(totem_t *totem, sfVector2i cursor_pos)
+{
+    int dark = 0;
+    int fire = 0;
+    int storm = 0;
+    int bubble = 0;
+
+    dark += is_it_in(cursor_pos.x, 1632, 1747);
+    dark += is_it_in(cursor_pos.y, 797, 918);
+    bubble += is_it_in(cursor_pos.x, 1792, 1907);
+    bubble += is_it_in(cursor_pos.y, 797, 918);
+    fire += is_it_in(cursor_pos.x, 1792, 1907);
+    fire += is_it_in(cursor_pos.y, 943, 1063);
+    storm += is_it_in(cursor_pos.x, 1632, 1747);
+    storm += is_it_in(cursor_pos.y, 943, 1063);
+    totem = (storm == 2) ? build_totem(totem, "storm") : totem;
+    totem = (bubble == 2) ? build_totem(totem, "bubble") : totem;
+    totem = (dark == 2) ? build_totem(totem, "dark") : totem;
+    totem = (fire == 2) ? build_totem(totem, "fire") : totem;
+    return (totem);
+}
+
+void totem_info(totem_t *totem, int i)
+{
+    printf("Totem %d touched\n", i);
+    printf("Value:\nType: %s\nLevel: %d\n", totem->type, totem->lvl);
+    printf("Level stat: %d\n", totem->stat->lvl);
+    printf("Attack: %d\nSpeed booster: %.2f\n", totem->stat->atk,
+        totem->stat->spd);
+    printf("Cooldown: %.2f\nMax Enemies: %d\n", totem->stat->cd,
+        totem->stat->max_e);
+    printf("Range: %d\nCost: %d\n", totem->stat->range, totem->stat->cost);
 }
 
 player_t *my_event(player_t *player, sfRenderWindow *window)
@@ -60,12 +86,24 @@ player_t *my_event(player_t *player, sfRenderWindow *window)
     return (player);
 }
 
+void display_game(player_t *player, sfRenderWindow *window)
+{
+    sfRenderWindow_clear(window, sfBlack);
+    sfRenderWindow_drawSprite(window, player->w_spr, NULL);
+    if (player->market_d == 1)
+        sfRenderWindow_drawSprite(window, player->market_spr, NULL);
+    else if (player->upgrader_d == 1)
+        sfRenderWindow_drawSprite(window, player->upgrader_spr, NULL);
+    for (int i = 0; player->totems[i] != NULL; i++)
+        if (my_strcmp(player->totems[i]->type, "none") != 0)
+            sfRenderWindow_drawSprite(window, player->totems[i]->spr, NULL);
+    sfRenderWindow_display(window);
+}
+
 int start_game(player_t *player, sfRenderWindow *window)
 {
     while (sfRenderWindow_isOpen(window)) {
-        sfRenderWindow_clear(window, sfBlack);
-        sfRenderWindow_drawSprite(window, player->w_spr, NULL);
-        sfRenderWindow_display(window);
+        display_game(player, window);
         my_event(player, window);
     }
 }
@@ -73,6 +111,9 @@ int start_game(player_t *player, sfRenderWindow *window)
 int game_start(sfRenderWindow *window)
 {
     player_t *player = generate_game();
+    player->market_spr = totem_menu_gen(CONSTRUCT_TXT);
+    player->upgrader_spr = totem_menu_gen(UPGRADER_TXT);
+    player->market_d = 0;
     start_game(player, window);
 }
 

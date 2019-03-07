@@ -14,6 +14,7 @@ totem_t *generate_totem(int y, int x)
     totem->type = my_strdup("none");
     totem->stat = malloc(sizeof(totem_stats_t));
     totem->stat->lvl = 0;
+    totem->lvl = 0;
     totem->stat->atk = 0;
     totem->stat->spd = 0;
     totem->stat->cd = 0;
@@ -21,11 +22,11 @@ totem_t *generate_totem(int y, int x)
     totem->stat->range = 0;
     totem->stat->cost = 0;
     totem->spr = sfSprite_create();
-    totem->rect = create_IntRect(0, 0, 480, 226);
-    sfSprite_setTextureRect(totem->spr, totem->rect);
-    totem->pos.x = x;
-    totem->pos.y = y;
+    totem->pos.x = x + 7;
+    totem->pos.y = y - 80;
     sfSprite_setPosition(totem->spr, totem->pos);
+    totem->pos.y = y;
+    totem->pos.x = x;
     return (totem);
 }
 

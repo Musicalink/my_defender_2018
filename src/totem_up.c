@@ -16,6 +16,7 @@ totem_t *s_up(totem_t *totem)
     totem->stat->range = STORM_TOTEM_LVL[totem->lvl].range;
     totem->stat->cost = STORM_TOTEM_LVL[totem->lvl].cost;
     totem->stat->lvl = STORM_TOTEM_LVL[totem->lvl].lvl;
+    totem->lvl++;
     //player->money -= totem->stat->cost;
     return (totem);
 }
@@ -29,6 +30,7 @@ totem_t *d_up(totem_t *totem)
     totem->stat->range = DARK_TOTEM_LVL[totem->lvl].range;
     totem->stat->cost = DARK_TOTEM_LVL[totem->lvl].cost;
     totem->stat->lvl = DARK_TOTEM_LVL[totem->lvl].lvl;
+    totem->lvl++;
     //player->money -= totem->stat->cost;
     return (totem);
 }
@@ -42,6 +44,7 @@ totem_t *b_up(totem_t *totem)
     totem->stat->range = BUBBLE_TOTEM_LVL[totem->lvl].range;
     totem->stat->cost = BUBBLE_TOTEM_LVL[totem->lvl].cost;
     totem->stat->lvl = BUBBLE_TOTEM_LVL[totem->lvl].lvl;
+    totem->lvl++;
     //player->money -= totem->stat->cost;
     return (totem);
 }
@@ -55,6 +58,7 @@ totem_t *f_up(totem_t *totem)
     totem->stat->range = FIRE_TOTEM_LVL[totem->lvl].range;
     totem->stat->cost = FIRE_TOTEM_LVL[totem->lvl].cost;
     totem->stat->lvl = FIRE_TOTEM_LVL[totem->lvl].lvl;
+    totem->lvl++;
     //player->money -= totem->stat->cost;
     return (totem);
 }

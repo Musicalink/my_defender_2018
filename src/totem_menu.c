@@ -7,11 +7,11 @@
 
 #include "defender.h"
 
-sfSprite *totem_menu_gen(void)
+sfSprite *totem_menu_gen(char *path)
 {
     sfSprite *sprite;
     sfVector2f pos;
-    sfTexture *texture = sfTexture_createFromFile("./ressources/construct_menu.png", NULL);
+    sfTexture *texture = sfTexture_createFromFile(path, NULL);
 
     pos.x = 1620;
     pos.y = 780;
