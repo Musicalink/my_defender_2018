@@ -28,12 +28,16 @@ player_t *generate_game(void)
 
 void my_click_event(player_t *player, sfVector2i cursor_pos)
 {
+    int is_it_touched = 0;
+
     for (int i = 0; player->totems[i] != NULL; i++) {
-        if (cursor_pos.x > player->totems[i]->pos.x &&
-            cursor_pos.x < player->totems[i]->pos.x + 78)
-            if (cursor_pos.y > player->totems[i]->pos.y &&
-                cursor_pos.y < player->totems[i]->pos.y + 78)
-                printf("Totem %d touched\n", i);
+        is_it_touched += (cursor_pos.x > player->totems[i]->pos.x) ? 1 : 0;
+        is_it_touched += (cursor_pos.x < player->totems[i]->pos.x + 78) ? 1 : 0;
+        is_it_touched += (cursor_pos.y > player->totems[i]->pos.y) ? 1 : 0;
+        is_it_touched += (cursor_pos.y < player->totems[i]->pos.y + 78) ? 1 : 0;
+        if (is_it_touched == 4)
+            printf("Totem %d touched\n", i);
+        is_it_touched = 0;
     }
 }
 
