@@ -27,7 +27,7 @@ menu_t *init_menu(char *ressources)
 
     pos.x = 0;
     pos.y = 0;
-    menu->rect = create_rect(0,0,1920,1080);
+    menu->rect = create_rect(0, 0, 1920, 1080);
     menu->texture = sfTexture_createFromFile(ressources, NULL);
     menu->sprite = sfSprite_create();
     sfSprite_setPosition(menu->sprite, pos);
@@ -41,10 +41,11 @@ void check_mouse_pos(sfRenderWindow *window)
     sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
 
     if (mouse.x < 1245 && mouse.x > 778) {
-	if (mouse.y > 372 && mouse.y < 529)
-	    printf("yolo\n");//A remplacer par la fonction qui lance e jeux mashallah
-	else if (mouse.y > 651 && mouse.y < 807)
-	    sfRenderWindow_close(window);
+        if (mouse.y > 372 && mouse.y < 529)
+            //  printf("yolo\n");//A remplacer par la fonction qui lance e jeux mashallah
+            game_start(window);
+        else if (mouse.y > 651 && mouse.y < 807)
+            sfRenderWindow_close(window);
     }
 }
 
@@ -53,11 +54,11 @@ int display_menu(menu_t *menu, sfRenderWindow *window)
     sfEvent event;
 
     while (sfRenderWindow_pollEvent(window, &event)) {
-	if (event.type == sfEvtClosed)
-	    sfRenderWindow_close(window);
-	else if (event.type == sfEvtMouseButtonPressed) {
-	    check_mouse_pos(window);
-	}
+        if (event.type == sfEvtClosed)
+            sfRenderWindow_close(window);
+        else if (event.type == sfEvtMouseButtonPressed) {
+            check_mouse_pos(window);
+        }
     }
     sfRenderWindow_clear(window, sfBlack);
     sfRenderWindow_drawSprite(window, menu->sprite, NULL);
@@ -66,8 +67,8 @@ int display_menu(menu_t *menu, sfRenderWindow *window)
 int game_menu(menu_t *menu, sfRenderWindow *window)
 {
     while (sfRenderWindow_isOpen(window)) {
-	display_menu(menu, window);
-	sfRenderWindow_display(window);
+        display_menu(menu, window);
+        sfRenderWindow_display(window);
     }
     sfRenderWindow_destroy(window);
 }
