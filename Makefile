@@ -24,13 +24,14 @@ SFFLAGS =       -lcsfml-graphics -lcsfml-system -lcsfml-window -lcsfml-audio -Ll
 all:    $(NAME)
 
 $(NAME):	$(OBJ)
-		make -C ./lib/my
-		gcc -o $(NAME) $(OBJ) $(SFFLAGS) $(CFLAGS)
+	make -C ./lib/my
+	gcc -o $(NAME) $(OBJ) $(SFFLAGS) $(CFLAGS)
 
 clean:
 	rm -f $(OBJ)
 
 fclean: clean
+	make fclean -C ./lib/my
 	rm -f $(NAME)
 
 re:  fclean all

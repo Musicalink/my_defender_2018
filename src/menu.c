@@ -42,7 +42,6 @@ void check_mouse_pos(sfRenderWindow *window)
 
     if (mouse.x < 1245 && mouse.x > 778) {
         if (mouse.y > 372 && mouse.y < 529)
-            //  printf("yolo\n");//A remplacer par la fonction qui lance e jeux mashallah
             game_start(window);
         else if (mouse.y > 651 && mouse.y < 807)
             sfRenderWindow_close(window);
