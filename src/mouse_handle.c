@@ -15,7 +15,7 @@ void market_handler(player_t *player, sfVector2i cursor)
     is_it_touched += is_it_in(cursor.x, 1620, 1920);
     is_it_touched += is_it_in(cursor.y, 780, 1080);
     player->market_d = (is_it_touched == 2) ? 1 : 0;
-    player->totems[std] = chose_totem(player->totems[std], cursor);
+    player->totems[std] = chose_totem(player->totems[std], cursor, player);
     player->market_d = 0;
 }
 
@@ -28,7 +28,7 @@ int upgrade_handler(player_t *player, sfVector2i cursor)
     is_it_touched += is_it_in(cursor.x, 1620, 1920);
     is_it_touched += is_it_in(cursor.y, 780, 1080);
     player->upgrader_d = (is_it_touched == 2) ? 1 : 0;
-    player->totems[std] = upgrade_totem(player->totems[std], type);
+    player->totems[std] = upgrade_totem(player->totems[std], type, player);
     free(type);
     player->upgrader_d = 0;
     return (0);
@@ -49,7 +49,6 @@ int touch_check(player_t *player, sfVector2i cursor)
 {
     int is_it_touched = 0;
 
-    printf("CLICK\n");
     for (int i = 0; player->totems[i] != NULL; i++) {
         is_it_touched += (cursor.x > player->totems[i]->pos.x) ? 1 : 0;
         is_it_touched += (cursor.x < player->totems[i]->pos.x + 78) ? 1 : 0;

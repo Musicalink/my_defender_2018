@@ -13,7 +13,10 @@ player_t *generate_game(void)
 
     player->money = 500;
     player->waves = 0;
-    player->monster_killed = 0;
+    player->enemies_r = 0;
+    player->money_t = gen_text(my_itoa(player->money), 955, 110);
+    player->waves_t = gen_text(my_itoa(player->waves), 993, 390);
+    player->enemies_t = gen_text(my_itoa(player->enemies_r), 1028, 130);
     player->totems = malloc(sizeof(totem_t) * 33);
     for (int i = 0; i < 33; i++)
         player->totems[i] = malloc(sizeof(totem_t));
@@ -33,7 +36,7 @@ int is_it_in(int to_try, int exone, int extwo)
     return (0);
 }
 
-totem_t *chose_totem(totem_t *totem, sfVector2i cursor_pos)
+totem_t *chose_totem(totem_t *totem, sfVector2i cursor_pos, player_t *player)
 {
     int dark = 0;
     int fire = 0;
@@ -48,10 +51,10 @@ totem_t *chose_totem(totem_t *totem, sfVector2i cursor_pos)
     fire += is_it_in(cursor_pos.y, 943, 1063);
     storm += is_it_in(cursor_pos.x, 1632, 1747);
     storm += is_it_in(cursor_pos.y, 943, 1063);
-    totem = (storm == 2) ? build_totem(totem, "storm") : totem;
-    totem = (bubble == 2) ? build_totem(totem, "bubble") : totem;
-    totem = (dark == 2) ? build_totem(totem, "dark") : totem;
-    totem = (fire == 2) ? build_totem(totem, "fire") : totem;
+    totem = (storm == 2) ? build_totem(totem, "storm", player) : totem;
+    totem = (bubble == 2) ? build_totem(totem, "bubble", player) : totem;
+    totem = (dark == 2) ? build_totem(totem, "dark", player) : totem;
+    totem = (fire == 2) ? build_totem(totem, "fire", player) : totem;
     return (totem);
 }
 
@@ -65,6 +68,7 @@ void totem_info(totem_t *totem, int i)
     printf("Cooldown: %.2f\nMax Enemies: %d\n", totem->stat->cd,
         totem->stat->max_e);
     printf("Range: %d\nCost: %d\n", totem->stat->range, totem->stat->cost);
+    printf("_________\n");
 }
 
 player_t *my_event(player_t *player, sfRenderWindow *window)
@@ -94,6 +98,9 @@ void display_game(player_t *player, sfRenderWindow *window)
         sfRenderWindow_drawSprite(window, player->market_spr, NULL);
     else if (player->upgrader_d == 1)
         sfRenderWindow_drawSprite(window, player->upgrader_spr, NULL);
+    sfRenderWindow_drawText(window, player->money_t, NULL);
+    sfRenderWindow_drawText(window, player->waves_t, NULL);
+    sfRenderWindow_drawText(window, player->enemies_t, NULL);
     for (int i = 0; player->totems[i] != NULL; i++)
         if (my_strcmp(player->totems[i]->type, "none") != 0)
             sfRenderWindow_drawSprite(window, player->totems[i]->spr, NULL);
@@ -105,6 +112,9 @@ int start_game(player_t *player, sfRenderWindow *window)
     while (sfRenderWindow_isOpen(window)) {
         display_game(player, window);
         my_event(player, window);
+        sfText_setString(player->money_t, my_itoa(player->money));
+        sfText_setString(player->waves_t, my_itoa(player->waves));
+        sfText_setString(player->enemies_t, my_itoa(player->enemies_r));
     }
 }
 
@@ -115,36 +125,5 @@ int game_start(sfRenderWindow *window)
     player->upgrader_spr = totem_menu_gen(UPGRADER_TXT);
     player->market_d = 0;
     start_game(player, window);
+    return (0);
 }
-
-/*
-
-typedef struct totem_stats {
-    int lvl;
-    int atk;
-    float spd;
-    float cd;
-    int max_e;
-    int range;
-    int cost;
-} totem_stats_t;
-
-typedef struct totem {
-    char *type;
-    int lvl;
-    totem_stats_t *stat;
-    sfSprite *spr;
-    sfTexture *text;
-    sfIntRect rect;
-    sfVector2f pos;
-} totem_t;
-
-typedef struct player {
-    int money;
-    int waves;
-    int monster_killed;
-    totem_t **totems;
-    monster_t **monsters;
-} player_t;
-
- */

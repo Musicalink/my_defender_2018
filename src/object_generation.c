@@ -7,7 +7,25 @@
 
 #include "defender.h"
 
-totem_t *generate_totem(int y, int x)
+sfText *gen_text(char *s, int y, int x)
+{
+    sfText *text = sfText_create();
+    sfVector2f size;
+    sfVector2f pos;
+    sfFont *font = sfFont_createFromFile(FONT);
+
+    size.x = 1.5;
+    size.y = 1.5;
+    pos.x = x;
+    pos.y = y;
+    sfText_setString(text, s);
+    sfText_setScale(text, size);
+    sfText_setPosition(text, pos);
+    sfText_setFont(text, font);
+    return (text);
+}
+
+totem_t *generate_totem(float y, float x)
 {
     totem_t *totem = malloc(sizeof(totem_t));
 
