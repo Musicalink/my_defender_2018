@@ -34,7 +34,7 @@ int upgrade_handler(player_t *player, sfVector2i cursor)
     return (0);
 }
 
-int market_or_upgrade(player_t *player, sfVector2i cursor, int i)
+int market_or_upgrade(player_t *player, int i)
 {
     totem_info(player->totems[i], i);
     if (player->totems[i]->lvl == 0)
@@ -56,7 +56,7 @@ int touch_check(player_t *player, sfVector2i cursor)
         is_it_touched += (cursor.y < player->totems[i]->pos.y + 78) ? 1 : 0;
         is_it_touched -= (player->market_d == 1) ? 1 : 0;
         if (is_it_touched == 4)
-            market_or_upgrade(player, cursor, i);
+            market_or_upgrade(player, i);
         is_it_touched = 0;
     }
     return (0);
@@ -64,14 +64,11 @@ int touch_check(player_t *player, sfVector2i cursor)
 
 int my_click_event(player_t *player, sfVector2i cursor)
 {
-    int is_it_touched = 0;
-    int std = player->m_sel;
-
-    if (player->market_d == 1) {
+    if (player->market_d == 1)
         market_handler(player, cursor);
-    } else if (player->upgrader_d == 1) {
+    else if (player->upgrader_d == 1)
         upgrade_handler(player, cursor);
-    } else
+    else
         touch_check(player, cursor);
 
     return (0);

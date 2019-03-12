@@ -87,6 +87,8 @@ int is_enough_money(player_t *player, char *type);
 
 char *find_totem_texture(char *type, char *s);
 
+void totem_info(totem_t *totem, int i);
+
 #define GAME_BG "./ressources/game_bg.png"
 #define DARK_T "./ressources/dark.png"
 #define FIRE_T "./ressources/fire.png"
