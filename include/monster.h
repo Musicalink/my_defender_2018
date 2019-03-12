@@ -19,7 +19,15 @@ typedef struct monster {
     sfTexture *text;
     sfIntRect rect;
     sfVector2f pos;
+    struct monster *next;
+    struct monster *prev;
 } monster_t;
+
+typedef struct list_m {
+    int size;
+    elem *head;
+    elem *tail;
+} list;
 
 int level;
 
