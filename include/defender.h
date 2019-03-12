@@ -97,5 +97,8 @@ void totem_info(totem_t *totem, int i);
 #define CONSTRUCT_TXT "./ressources/construct_menu.png"
 #define UPGRADER_TXT "./ressources/upgrade_menu.png"
 #define FONT "ressources/font.ttf"
+#define KAMIKAZE "./ressources/boumboum.png"
+#define MINOTAURE "./ressources/minotaure.png"
+
 
 #endif /*DEFENDER_H_*/
