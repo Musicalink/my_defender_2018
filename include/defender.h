@@ -119,5 +119,6 @@ list *monster_list_init(void);
 #define FONT "ressources/font.ttf"
 #define KAMIKAZE "./ressources/boumboum.png"
 #define MINOTAURE "./ressources/minotaure.png"
-
+#define KAMIKAZE_R "./ressources/boumboum_r.png"
+#define MINOTAURE_R "./ressources/minotaure_r.png"
 #endif /*DEFENDER_H_*/
