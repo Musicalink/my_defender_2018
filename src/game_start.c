@@ -37,7 +37,8 @@ void my_movement(monster_t *elem)
     elem->road += (elem->road == 7 && elem->pos.y >= 467) ? 1 : 0;
     elem->pos.x += (elem->road == 8 && elem->pos.x < 1185) ? elem->speed : 0;
     elem->road += (elem->road == 8 && elem->pos.x >= 1185) ? 1 : 0;
-    my_flip(elem, s);
+    if (elem->road != s)
+        my_flip(elem, s);
 }
 
 void penguin_move(monster_t *elem)
@@ -59,14 +60,14 @@ void move_monster(player_t *player, sfRenderWindow *window)
     for (; elem != NULL; elem = elem->next) {
         my_movement(elem);
         sfSprite_setPosition(elem->spr, elem->pos);
-	if (my_strcmp(elem->type, "Kamipenguin") == 0) {
-	    penguin_move(elem);
-	    check_explose(elem);
-	} else {//-------------------------------|
-	    elem->rect.left += 81;//-----------|
-	    if (elem->rect.left > 81 * 7)//----|--> A normifier
-		elem->rect.left = 0;//---------|
-	}//------------------------------------|
+        if (my_strcmp(elem->type, "Kamipenguin") == 0) {
+            penguin_move(elem);
+            check_explose(elem);
+        } else {
+            elem->rect.left += 81;
+            elem->rect.left = (elem->rect.left >= 81 * 7) ? 0 : elem->rect.left;
+        }
+        sfSprite_setTextureRect(elem->spr, elem->rect);
     }
 }
 
@@ -172,8 +173,10 @@ void display_monsters(player_t *player, sfRenderWindow *window)
     monster_t *elem = player->monsters->head;
 
     for (; elem != NULL; elem = elem->next)
-        if (elem->health > 0)
+        if (elem->alive == 1) {
+            printf("coucou, je suis un %s %d\n", elem->type, elem->alive);
             sfRenderWindow_drawSprite(window, elem->spr, NULL);
+        }
 }
 
 void display_game(player_t *player, sfRenderWindow *window)
@@ -201,9 +204,10 @@ int start_game(player_t *player, sfRenderWindow *window)
         sfText_setString(player->money_t, my_itoa(player->money));
         sfText_setString(player->waves_t, my_itoa(player->waves));
         sfText_setString(player->enemies_t, my_itoa(player->enemies_r));
-        display_game(player, window);
         move_monster(player, window);
+        display_game(player, window);
     }
+    return (0);
 }
 
 int game_start(sfRenderWindow *window)

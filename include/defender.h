@@ -109,6 +109,10 @@ void add_bull(list *enemies);
 
 list *monster_list_init(void);
 
+void my_flip(monster_t *elem, int diff);
+
+void check_explose(monster_t *elem);
+
 #define GAME_BG "./ressources/game_bg.png"
 #define DARK_T "./ressources/dark.png"
 #define FIRE_T "./ressources/fire.png"
