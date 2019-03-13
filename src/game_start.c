@@ -59,7 +59,6 @@ void move_monster(player_t *player, sfRenderWindow *window)
     for (; elem != NULL; elem = elem->next) {
         my_movement(elem);
         sfSprite_setPosition(elem->spr, elem->pos);
-<<<<<<< HEAD
 	if (my_strcmp(elem->type, "Kamipenguin") == 0) {
 	    penguin_move(elem);
 	    check_explose(elem);
@@ -68,7 +67,6 @@ void move_monster(player_t *player, sfRenderWindow *window)
 	    if (elem->rect.left > 81 * 7)//----|--> A normifier
 		elem->rect.left = 0;//---------|
 	}//------------------------------------|
-=======
     }
 }
 
