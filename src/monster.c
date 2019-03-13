@@ -52,6 +52,7 @@ void add_bull(list *enemies)
 {
     monster_t *elem = malloc(sizeof(monster_t));
 
+    elem->alive = 1;
     elem->type = "minotaure";
     elem->speed = 4;
     elem->health = 1000;
