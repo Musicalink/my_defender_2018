@@ -18,6 +18,7 @@ typedef struct monster {
     int road;
     sfSprite *spr;
     sfTexture *text;
+    sfTexture *rev;
     sfIntRect rect;
     sfVector2f pos;
     struct monster *next;

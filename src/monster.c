@@ -29,12 +29,13 @@ void add_penguin(list *enemies)
     monster_t *elem = malloc(sizeof(monster_t));
 
     elem->type = "Kamipenguin";
-    elem->speed = 8;
+    elem->speed = 16;
     elem->health = 500;
     elem->armor = 50;
     elem->a_speed = 0;
     elem->a_damage = 100;
     elem->text = sfTexture_createFromFile(KAMIKAZE, NULL);
+    elem->rev = sfTexture_createFromFile(KAMIKAZE_R, NULL);
     elem->pos.x = 30;
     elem->pos.y = 860;
     elem->road = 0;
@@ -57,6 +58,7 @@ void add_bull(list *enemies)
     elem->a_speed = 0;
     elem->a_damage = 200;
     elem->text = sfTexture_createFromFile(MINOTAURE, NULL);
+    elem->rev = sfTexture_createFromFile(MINOTAURE_R, NULL);
     elem->pos.x = 30;
     elem->pos.y = 860;
     elem->road = 0;

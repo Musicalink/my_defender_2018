@@ -7,8 +7,18 @@
 
 #include "defender.h"
 
+void my_flip(monster_t *elem, int diff)
+{
+    if (elem->road != diff && elem->road % 4 == 2)
+        sfSprite_setTexture(elem->spr, elem->rev, sfTrue);
+    else if (elem->road != diff && elem->road % 4 == 0)
+        sfSprite_setTexture(elem->spr, elem->text, sfTrue);
+}
+
 void my_movement(monster_t *elem)
 {
+    int s = elem->road;
+
     elem->pos.x += (elem->road == 0 && elem->pos.x < 1700) ? elem->speed : 0;
     elem->road += (elem->road == 0 && elem->pos.x >= 1700) ? 1 : 0;
     elem->pos.y -= (elem->road == 1 && elem->pos.y > 120) ? elem->speed : 0;
@@ -27,18 +37,19 @@ void my_movement(monster_t *elem)
     elem->road += (elem->road == 7 && elem->pos.y >= 467) ? 1 : 0;
     elem->pos.x += (elem->road == 8 && elem->pos.x < 1185) ? elem->speed : 0;
     elem->road += (elem->road == 8 && elem->pos.x >= 1185) ? 1 : 0;
+    my_flip(elem, s);
 }
 
 void penguin_move(monster_t *elem)
 {
     if (elem->road == 8) {
-	elem->speed += 2;
-	if (elem->rect.left == 0 && elem->rect.top < 81 * 2)
-	    elem->rect.top += 81;
+        elem->speed += 2;
+        if (elem->rect.left == 0 && elem->rect.top < 81 * 2)
+            elem->rect.top += 81;
     }
     elem->rect.left += 81;
     if (elem->rect.left > 81 * 7)
-	elem->rect.left = 0;
+        elem->rect.left = 0;
 }
 
 void move_monster(player_t *player, sfRenderWindow *window)
@@ -48,13 +59,13 @@ void move_monster(player_t *player, sfRenderWindow *window)
     for (; elem != NULL; elem = elem->next) {
         my_movement(elem);
         sfSprite_setPosition(elem->spr, elem->pos);
-	if (my_strcmp(elem->type, "Kamipenguin") == 0)
-	    penguin_move(elem);
-	else {//-------------------------------|
-	    elem->rect.left += 81;//-----------|
-	    if (elem->rect.left > 81 * 7)//----|--> A normifier
-		elem->rect.left = 0;//---------|
-	}//------------------------------------|
+        if (my_strcmp(elem->type, "Kamipenguin") == 0)
+            penguin_move(elem);
+        else {//-------------------------------|
+            elem->rect.left += 81;//-----------|
+            if (elem->rect.left > 81 * 7)//----|--> A normifier
+                elem->rect.left = 0;//---------|
+        }//------------------------------------|
         sfSprite_setTextureRect(elem->spr, elem->rect);
     }
 }
