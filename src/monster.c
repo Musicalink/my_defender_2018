@@ -28,6 +28,7 @@ void add_penguin(list *enemies)
 {
     monster_t *elem = malloc(sizeof(monster_t));
 
+    elem->alive = 1;
     elem->type = "Kamipenguin";
     elem->speed = 8;
     elem->health = 500;

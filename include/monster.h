@@ -10,6 +10,7 @@
 
 typedef struct monster {
     char *type;
+    int alive;
     int speed;
     int health;
     int armor;
