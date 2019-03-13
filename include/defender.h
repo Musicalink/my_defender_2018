@@ -24,6 +24,8 @@ typedef struct menu {
 } menu_t;
 
 typedef struct player {
+    sfTime time;
+    sfClock *clock;
     int money;
     int waves;
     int enemies_r;
@@ -31,7 +33,7 @@ typedef struct player {
     sfText *waves_t;
     sfText *enemies_t;
     totem_t **totems;
-    monster_t **monsters;
+    list *monsters;
     sfSprite *w_spr;
     sfTexture *w_txt;
     int market_d;
@@ -44,6 +46,10 @@ typedef struct player {
 menu_t *init_menu(char *);
 
 sfIntRect create_IntRect(int top, int left, int width, int height);
+
+sfIntRect create_rect(int left, int top, int width, int height);
+
+void display_monsters(player_t *player, sfRenderWindow *window);
 
 totem_t *generate_totem(float y, float x);
 
@@ -89,6 +95,20 @@ char *find_totem_texture(char *type, char *s);
 
 void totem_info(totem_t *totem, int i);
 
+void add_element_to_list(list *list, monster_t *elem);
+
+void add_penguin(list *enemies);
+
+player_t *my_event(player_t *player, sfRenderWindow *window);
+
+player_t *my_clock(player_t *game, sfRenderWindow *window);
+
+void display_game(player_t *player, sfRenderWindow *window);
+
+void add_bull(list *enemies);
+
+list *monster_list_init(void);
+
 #define GAME_BG "./ressources/game_bg.png"
 #define DARK_T "./ressources/dark.png"
 #define FIRE_T "./ressources/fire.png"
@@ -99,6 +119,5 @@ void totem_info(totem_t *totem, int i);
 #define FONT "ressources/font.ttf"
 #define KAMIKAZE "./ressources/boumboum.png"
 #define MINOTAURE "./ressources/minotaure.png"
-
 
 #endif /*DEFENDER_H_*/

@@ -14,6 +14,7 @@ SRC     =       src/main.c		\
                 src/totem_update.c\
                 src/totem_menu.c\
                 src/mouse_handle.c\
+                src/monster.c\
 
 OBJ     =       $(SRC:.c=.o)
 

@@ -14,11 +14,10 @@ char *my_itoa(int nb)
     int incrementer = 0;
     int buffer = nb;
 
-    if (nb < 0) {
-        str = malloc(sizeof(char) * my_intlen(nb) + 2);
-        nb *= -1;
-    } else
-        str = malloc(sizeof(char) * my_intlen(nb) + 1);
+    str = malloc(sizeof(char) * my_intlen(nb) + (nb < 0) ? 2 : 1);
+    nb *= (nb < 0) ? -1 : 1;
+    if (nb == 0)
+        return ("0");
     for (int i = 0; nb != 0; i++) {
         str[incrementer] = (char)(nb % 10 + '0');
         nb /= 10;

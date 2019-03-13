@@ -5,7 +5,7 @@
 ** my_defender
 */
 
-#include "defender"
+#include "defender.h"
 
 void add_element_to_list(list *list, monster_t *elem)
 {
@@ -29,19 +29,42 @@ void add_penguin(list *enemies)
     monster_t *elem = malloc(sizeof(monster_t));
 
     elem->type = "Kamipenguin";
-    elem->speed = 150;
+    elem->speed = 8;
     elem->health = 500;
     elem->armor = 50;
     elem->a_speed = 0;
     elem->a_damage = 100;
-    elem->text = sfTexture_createFromFile("ressources/boumboum.png", NULL);
-    elem->pos.x = -30;
-    elem->pos.y = 949;
-    elem->rect = create_rect(0, 0, 0, 0);//faudra changer les valeurs
+    elem->text = sfTexture_createFromFile(KAMIKAZE, NULL);
+    elem->pos.x = 30;
+    elem->pos.y = 860;
+    elem->road = 0;
+    elem->rect = create_rect(0, 0, 81, 81);//faudra changer les valeurs
     elem->spr = sfSprite_create();
     sfSprite_setPosition(elem->spr, elem->pos);
     sfSprite_setTexture(elem->spr, elem->text, sfTrue);
-    sfSprite_settextureRect(elem->spr, elem->rect);
+    sfSprite_setTextureRect(elem->spr, elem->rect);
+    add_element_to_list(enemies, elem);
+}
+
+void add_bull(list *enemies)
+{
+    monster_t *elem = malloc(sizeof(monster_t));
+
+    elem->type = "minotaure";
+    elem->speed = 4;
+    elem->health = 1000;
+    elem->armor = 100;
+    elem->a_speed = 0;
+    elem->a_damage = 200;
+    elem->text = sfTexture_createFromFile(MINOTAURE, NULL);
+    elem->pos.x = 30;
+    elem->pos.y = 860;
+    elem->road = 0;
+    elem->rect = create_rect(0, 0, 81, 81);//faudra changer les valeurs
+    elem->spr = sfSprite_create();
+    sfSprite_setPosition(elem->spr, elem->pos);
+    sfSprite_setTexture(elem->spr, elem->text, sfTrue);
+    sfSprite_setTextureRect(elem->spr, elem->rect);
     add_element_to_list(enemies, elem);
 }
 

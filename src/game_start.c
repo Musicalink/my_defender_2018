@@ -7,6 +7,56 @@
 
 #include "defender.h"
 
+void my_movement(monster_t *elem)
+{
+    elem->pos.x += (elem->road == 0 && elem->pos.x < 1700) ? elem->speed : 0;
+    elem->road += (elem->road == 0 && elem->pos.x >= 1700) ? 1 : 0;
+    elem->pos.y -= (elem->road == 1 && elem->pos.y > 120) ? elem->speed : 0;
+    elem->road += (elem->road == 1 && elem->pos.y <= 120) ? 1 : 0;
+    elem->pos.x -= (elem->road == 2 && elem->pos.x > 130) ? elem->speed : 0;
+    elem->road += (elem->road == 2 && elem->pos.x <= 130) ? 1 : 0;
+    elem->pos.y += (elem->road == 3 && elem->pos.y < 660) ? elem->speed : 0;
+    elem->road += (elem->road == 3 && elem->pos.y >= 660) ? 1 : 0;
+    elem->pos.x += (elem->road == 4 && elem->pos.x < 1527) ? elem->speed : 0;
+    elem->road += (elem->road == 4 && elem->pos.x >= 1527) ? 1 : 0;
+    elem->pos.y -= (elem->road == 5 && elem->pos.y > 285) ? elem->speed : 0;
+    elem->road += (elem->road == 5 && elem->pos.y <= 285) ? 1 : 0;
+    elem->pos.x -= (elem->road == 6 && elem->pos.x > 282) ? elem->speed : 0;
+    elem->road += (elem->road == 6 && elem->pos.x <= 282) ? 1 : 0;
+    elem->pos.y += (elem->road == 7 && elem->pos.y < 467) ? elem->speed : 0;
+    elem->road += (elem->road == 7 && elem->pos.y >= 467) ? 1 : 0;
+    elem->pos.x += (elem->road == 8 && elem->pos.x < 1185) ? elem->speed : 0;
+    elem->road += (elem->road == 8 && elem->pos.x >= 1185) ? 1 : 0;
+}
+
+void move_monster(player_t *player, sfRenderWindow *window)
+{
+    monster_t *elem = player->monsters->head;
+
+    for (; elem != NULL; elem = elem->next) {
+        my_movement(elem);
+        sfSprite_setPosition(elem->spr, elem->pos);
+        elem->rect.left += 81;
+        if (elem->rect.left > 81 * 7)
+            elem->rect.left = 0;
+        sfSprite_setTextureRect(elem->spr, elem->rect);
+    }
+}
+
+player_t *my_clock(player_t *player, sfRenderWindow *window)
+{
+    float seconds = 0;
+    float limit = 0.05;
+
+    while (seconds < limit) {
+        player->time = sfClock_getElapsedTime(player->clock);
+        player = my_event(player, window);
+        seconds = (float)(player->time.microseconds / 1000000.0);
+    }
+    sfClock_restart(player->clock);
+    return (player);
+}
+
 player_t *generate_game(void)
 {
     player_t *player = malloc(sizeof(player_t));
@@ -90,6 +140,15 @@ player_t *my_event(player_t *player, sfRenderWindow *window)
     return (player);
 }
 
+void display_monsters(player_t *player, sfRenderWindow *window)
+{
+    monster_t *elem = player->monsters->head;
+
+    for (; elem != NULL; elem = elem->next)
+        if (elem->health > 0)
+            sfRenderWindow_drawSprite(window, elem->spr, NULL);
+}
+
 void display_game(player_t *player, sfRenderWindow *window)
 {
     sfRenderWindow_clear(window, sfBlack);
@@ -98,6 +157,7 @@ void display_game(player_t *player, sfRenderWindow *window)
         sfRenderWindow_drawSprite(window, player->market_spr, NULL);
     else if (player->upgrader_d == 1)
         sfRenderWindow_drawSprite(window, player->upgrader_spr, NULL);
+    display_monsters(player, window);
     sfRenderWindow_drawText(window, player->money_t, NULL);
     sfRenderWindow_drawText(window, player->waves_t, NULL);
     sfRenderWindow_drawText(window, player->enemies_t, NULL);
@@ -110,11 +170,12 @@ void display_game(player_t *player, sfRenderWindow *window)
 int start_game(player_t *player, sfRenderWindow *window)
 {
     while (sfRenderWindow_isOpen(window)) {
-        display_game(player, window);
-        my_event(player, window);
+        player = my_clock(player, window);
         sfText_setString(player->money_t, my_itoa(player->money));
         sfText_setString(player->waves_t, my_itoa(player->waves));
         sfText_setString(player->enemies_t, my_itoa(player->enemies_r));
+        display_game(player, window);
+        move_monster(player, window);
     }
 }
 
@@ -123,6 +184,10 @@ int game_start(sfRenderWindow *window)
     player_t *player = generate_game();
     player->market_spr = totem_menu_gen(CONSTRUCT_TXT);
     player->upgrader_spr = totem_menu_gen(UPGRADER_TXT);
+    player->monsters = monster_list_init();
+    add_penguin(player->monsters);
+    add_bull(player->monsters);
+    player->clock = sfClock_create();
     player->market_d = 0;
     start_game(player, window);
     return (0);

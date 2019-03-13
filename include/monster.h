@@ -15,6 +15,7 @@ typedef struct monster {
     int armor;
     int a_speed;
     int a_damage;
+    int road;
     sfSprite *spr;
     sfTexture *text;
     sfIntRect rect;
@@ -25,8 +26,8 @@ typedef struct monster {
 
 typedef struct list_m {
     int size;
-    elem *head;
-    elem *tail;
+    monster_t *head;
+    monster_t *tail;
 } list;
 
 int level;
