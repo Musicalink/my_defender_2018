@@ -29,6 +29,18 @@ void my_movement(monster_t *elem)
     elem->road += (elem->road == 8 && elem->pos.x >= 1185) ? 1 : 0;
 }
 
+void penguin_move(monster_t *elem)
+{
+    if (elem->road == 8) {
+	elem->speed += 2;
+	if (elem->rect.left == 0 && elem->rect.top < 81 * 2)
+	    elem->rect.top += 81;
+    }
+    elem->rect.left += 81;
+    if (elem->rect.left > 81 * 7)
+	elem->rect.left = 0;
+}
+
 void move_monster(player_t *player, sfRenderWindow *window)
 {
     monster_t *elem = player->monsters->head;
@@ -36,9 +48,13 @@ void move_monster(player_t *player, sfRenderWindow *window)
     for (; elem != NULL; elem = elem->next) {
         my_movement(elem);
         sfSprite_setPosition(elem->spr, elem->pos);
-        elem->rect.left += 81;
-        if (elem->rect.left > 81 * 7)
-            elem->rect.left = 0;
+	if (my_strcmp(elem->type, "Kamipenguin") == 0)
+	    penguin_move(elem);
+	else {//-------------------------------|
+	    elem->rect.left += 81;//-----------|
+	    if (elem->rect.left > 81 * 7)//----|--> A normifier
+		elem->rect.left = 0;//---------|
+	}//------------------------------------|
         sfSprite_setTextureRect(elem->spr, elem->rect);
     }
 }

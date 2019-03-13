@@ -38,7 +38,7 @@ void add_penguin(list *enemies)
     elem->pos.x = 30;
     elem->pos.y = 860;
     elem->road = 0;
-    elem->rect = create_rect(0, 0, 81, 81);//faudra changer les valeurs
+    elem->rect = create_rect(0, 0, 81, 81);
     elem->spr = sfSprite_create();
     sfSprite_setPosition(elem->spr, elem->pos);
     sfSprite_setTexture(elem->spr, elem->text, sfTrue);
@@ -60,7 +60,7 @@ void add_bull(list *enemies)
     elem->pos.x = 30;
     elem->pos.y = 860;
     elem->road = 0;
-    elem->rect = create_rect(0, 0, 81, 81);//faudra changer les valeurs
+    elem->rect = create_rect(0, 0, 81, 81);
     elem->spr = sfSprite_create();
     sfSprite_setPosition(elem->spr, elem->pos);
     sfSprite_setTexture(elem->spr, elem->text, sfTrue);
