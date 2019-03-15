@@ -17,6 +17,7 @@ typedef struct monster {
     int a_speed;
     int a_damage;
     int road;
+    int value;
     sfSprite *spr;
     sfTexture *text;
     sfTexture *rev;

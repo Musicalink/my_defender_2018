@@ -24,22 +24,23 @@ void add_element_to_list(list *list, monster_t *elem)
     }
 }
 
-void add_penguin(list *enemies)
+void add_penguin(list *enemies, int position, int wave)
 {
     monster_t *elem = malloc(sizeof(monster_t));
 
     elem->alive = 1;
     elem->type = "Kamipenguin";
     elem->speed = 16;
-    elem->health = 500;
+    elem->health = 500 + 500 * ((wave - 1) / 2);
     elem->armor = 50;
     elem->a_speed = 0;
     elem->a_damage = 100;
     elem->text = sfTexture_createFromFile(KAMIKAZE, NULL);
     elem->rev = sfTexture_createFromFile(KAMIKAZE_R, NULL);
-    elem->pos.x = 30;
+    elem->pos.x = -40 * position;
     elem->pos.y = 860;
     elem->road = 0;
+    elem->value = 75;
     elem->rect = create_rect(0, 0, 81, 81);
     elem->spr = sfSprite_create();
     sfSprite_setPosition(elem->spr, elem->pos);
@@ -48,20 +49,21 @@ void add_penguin(list *enemies)
     add_element_to_list(enemies, elem);
 }
 
-void add_bull(list *enemies)
+void add_bull(list *enemies, int position, int wave)
 {
     monster_t *elem = malloc(sizeof(monster_t));
 
     elem->alive = 1;
     elem->type = "minotaure";
     elem->speed = 4;
-    elem->health = 1000;
+    elem->health = 1000 + 1000 * ((wave - 1) / 2);
     elem->armor = 100;
     elem->a_speed = 0;
     elem->a_damage = 200;
+    elem->value = 125;
     elem->text = sfTexture_createFromFile(MINOTAURE, NULL);
     elem->rev = sfTexture_createFromFile(MINOTAURE_R, NULL);
-    elem->pos.x = 30;
+    elem->pos.x = -40 * position;
     elem->pos.y = 860;
     elem->road = 0;
     elem->rect = create_rect(0, 0, 81, 81);

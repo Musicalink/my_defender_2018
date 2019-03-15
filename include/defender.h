@@ -13,6 +13,7 @@
 #include <SFML/Audio.h>
 #include <SFML/Graphics.h>
 #include <stdlib.h>
+#include <math.h>
 #include "totem.h"
 #include "monster.h"
 #include "my.h"
@@ -34,12 +35,14 @@ typedef struct player {
     sfText *enemies_t;
     totem_t **totems;
     list *monsters;
+    int life;
     sfSprite *w_spr;
     sfTexture *w_txt;
     int market_d;
     sfSprite *market_spr;
     sfSprite *upgrader_spr;
     int upgrader_d;
+    float secs;
     int m_sel;
 } player_t;
 
@@ -54,8 +57,6 @@ void display_monsters(player_t *player, sfRenderWindow *window);
 totem_t *generate_totem(float y, float x);
 
 player_t *generate_game(void);
-
-player_t *my_end_event(player_t *player, sfRenderWindow *window);
 
 int start_game(player_t *player, sfRenderWindow *window);
 
@@ -97,7 +98,7 @@ void totem_info(totem_t *totem, int i);
 
 void add_element_to_list(list *list, monster_t *elem);
 
-void add_penguin(list *enemies);
+void add_penguin(list *enemies, int position, int wave);
 
 player_t *my_event(player_t *player, sfRenderWindow *window);
 
@@ -105,13 +106,19 @@ player_t *my_clock(player_t *game, sfRenderWindow *window);
 
 void display_game(player_t *player, sfRenderWindow *window);
 
-void add_bull(list *enemies);
+void add_bull(list *enemies, int position, int wave);
 
 list *monster_list_init(void);
 
 void my_flip(monster_t *elem, int diff);
 
-void check_explose(monster_t *elem);
+void check_explose(monster_t *elem, player_t *player);
+
+void gen_circle(totem_t *totem);
+
+void monsters_damage(player_t *player);
+
+int monsters_remaining(list *list);
 
 #define GAME_BG "./ressources/game_bg.png"
 #define DARK_T "./ressources/dark.png"
@@ -125,4 +132,11 @@ void check_explose(monster_t *elem);
 #define MINOTAURE "./ressources/minotaure.png"
 #define KAMIKAZE_R "./ressources/boumboum_r.png"
 #define MINOTAURE_R "./ressources/minotaure_r.png"
+
+static const sfColor COLORS[] = {{.r=255, .g=0, .b=0, .a=36},
+    {.r=255, .g=0, .b=0, .a=80}, {.r=0, .g=0, .b=255, .a=36},
+    {.r=0, .g=0, .b=255, .a=80}, {.r=255, .g=255, .b=0, .a=36},
+    {.r=255, .g=255, .b=0, .a=80}, {.r=0, .g=0, .b=0, .a=36},
+    {.r=0, .g=0, .b=0, .a=80}};
+
 #endif /*DEFENDER_H_*/

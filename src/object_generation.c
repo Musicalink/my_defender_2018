@@ -25,6 +25,36 @@ sfText *gen_text(char *s, int y, int x)
     return (text);
 }
 
+sfColor get_color(char *s, int i)
+{
+    if (my_strcmp(s, "fire") == 0)
+        return ((i == 0) ? COLORS[0] : COLORS[1]);
+    if (my_strcmp(s, "bubble") == 0)
+        return ((i == 0) ? COLORS[2] : COLORS[3]);
+    if (my_strcmp(s, "dark") == 0)
+        return ((i == 0) ? COLORS[6] : COLORS[7]);
+    if (my_strcmp(s, "storm") == 0)
+        return ((i == 0) ? COLORS[4] : COLORS[5]);
+}
+
+void gen_circle(totem_t *totem)
+{
+    float width;
+    sfVector2f aselelelelalele = (sfVector2f){totem->pos.x + 25,
+        totem->pos.y + 40};
+    sfColor color = get_color(totem->type, 0);
+    sfColor color2 = get_color(totem->type, 1);
+
+    totem->circle = sfCircleShape_create();
+    sfCircleShape_setRadius(totem->circle, totem->stat->range);
+    width = sfCircleShape_getGlobalBounds(totem->circle).width / 2;
+    sfCircleShape_setOrigin(totem->circle, (sfVector2f){width, width});
+    sfCircleShape_setPosition(totem->circle, aselelelelalele);
+    sfCircleShape_setFillColor(totem->circle, color);
+    sfCircleShape_setOutlineThickness(totem->circle, 5);
+    sfCircleShape_setOutlineColor(totem->circle, color2);
+}
+
 totem_t *generate_totem(float y, float x)
 {
     totem_t *totem = malloc(sizeof(totem_t));
@@ -45,6 +75,8 @@ totem_t *generate_totem(float y, float x)
     sfSprite_setPosition(totem->spr, totem->pos);
     totem->pos.y = y;
     totem->pos.x = x;
+    totem->current_cd = -500;
+    totem->current_er = 0;
     return (totem);
 }
 

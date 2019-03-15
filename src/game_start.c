@@ -62,7 +62,7 @@ void move_monster(player_t *player, sfRenderWindow *window)
         sfSprite_setPosition(elem->spr, elem->pos);
         if (my_strcmp(elem->type, "Kamipenguin") == 0) {
             penguin_move(elem);
-            check_explose(elem);
+            check_explose(elem, player);
         } else {
             elem->rect.left += 81;
             elem->rect.left = (elem->rect.left >= 81 * 7) ? 0 : elem->rect.left;
@@ -81,7 +81,9 @@ player_t *my_clock(player_t *player, sfRenderWindow *window)
         player = my_event(player, window);
         seconds = (float)(player->time.microseconds / 1000000.0);
     }
+    player->secs += seconds;
     sfClock_restart(player->clock);
+    monsters_damage(player);
     return (player);
 }
 
@@ -90,11 +92,11 @@ player_t *generate_game(void)
     player_t *player = malloc(sizeof(player_t));
 
     player->money = 500;
-    player->waves = 0;
+    player->waves = 1;
     player->enemies_r = 0;
     player->money_t = gen_text(my_itoa(player->money), 955, 110);
-    player->waves_t = gen_text(my_itoa(player->waves), 993, 390);
-    player->enemies_t = gen_text(my_itoa(player->enemies_r), 1028, 130);
+    player->waves_t = gen_text(my_itoa(player->waves), 1028, 130);
+    player->enemies_t = gen_text(my_itoa(player->enemies_r), 993, 390);
     player->totems = malloc(sizeof(totem_t) * 33);
     for (int i = 0; i < 33; i++)
         player->totems[i] = malloc(sizeof(totem_t));
@@ -168,33 +170,103 @@ player_t *my_event(player_t *player, sfRenderWindow *window)
     return (player);
 }
 
+double check_range(monster_t *monster, totem_t *totem)
+{
+    sfFloatRect monsters_c = sfSprite_getGlobalBounds(monster->spr);
+    float monster_mx = monsters_c.left + monsters_c.width / 2;
+    float monster_my = monsters_c.top + monsters_c.height / 2;
+    sfFloatRect totem_c = sfSprite_getGlobalBounds(totem->spr);
+    float totem_mx = totem_c.left + totem_c.width / 2;
+    float totem_my = totem_c.top + totem_c.height / 2;
+
+    return ((sqrt(pow(fabs(monster_mx - totem_mx), 2) +
+        pow(fabs(monster_my - totem_my), 2))));
+}
+
 void display_monsters(player_t *player, sfRenderWindow *window)
 {
     monster_t *elem = player->monsters->head;
 
     for (; elem != NULL; elem = elem->next)
-        if (elem->alive == 1) {
-            printf("coucou, je suis un %s %d\n", elem->type, elem->alive);
+        if (elem->alive == 1)
             sfRenderWindow_drawSprite(window, elem->spr, NULL);
-        }
 }
 
 void display_game(player_t *player, sfRenderWindow *window)
 {
     sfRenderWindow_clear(window, sfBlack);
     sfRenderWindow_drawSprite(window, player->w_spr, NULL);
+    sfRenderWindow_drawText(window, player->money_t, NULL);
+    sfRenderWindow_drawText(window, player->waves_t, NULL);
+    sfRenderWindow_drawText(window, player->enemies_t, NULL);
+    display_monsters(player, window);
+    for (int i = 0; player->totems[i] != NULL; i++)
+        if (my_strcmp(player->totems[i]->type, "none") != 0) {
+            sfRenderWindow_drawSprite(window, player->totems[i]->spr, NULL);
+            sfRenderWindow_drawCircleShape(window, player->totems[i]->circle,
+                NULL);
+        }
     if (player->market_d == 1)
         sfRenderWindow_drawSprite(window, player->market_spr, NULL);
     else if (player->upgrader_d == 1)
         sfRenderWindow_drawSprite(window, player->upgrader_spr, NULL);
-    display_monsters(player, window);
-    sfRenderWindow_drawText(window, player->money_t, NULL);
-    sfRenderWindow_drawText(window, player->waves_t, NULL);
-    sfRenderWindow_drawText(window, player->enemies_t, NULL);
-    for (int i = 0; player->totems[i] != NULL; i++)
-        if (my_strcmp(player->totems[i]->type, "none") != 0)
-            sfRenderWindow_drawSprite(window, player->totems[i]->spr, NULL);
     sfRenderWindow_display(window);
+}
+
+void search_monsters(list *monsters, totem_t *totem, player_t *player)
+{
+    monster_t *elem = monsters->head;
+
+    for (; elem != NULL; elem = elem->next)
+        if (check_range(elem, totem) < totem->stat->range && elem->alive == 1) {
+            totem->rect.left += 56;
+            if (totem->rect.left > 56 * 6)
+                totem->rect.left = 0;
+            sfSprite_setTextureRect(totem->spr, totem->rect);
+            if (player->secs - totem->current_cd > totem->stat->cd) {
+                elem->health -= totem->stat->atk;
+                elem->speed -= (int)totem->stat->spd;
+                elem->speed = (elem->speed < 1) ? 1 : elem->speed;
+                elem->alive = (elem->health <= 0) ? 0 : 1;
+                player->money += (elem->alive == 0) ? elem->value : 0;
+                elem->value = (elem->alive == 0) ? 0 : elem->value;
+                printf("%s is now %d HP (%s)\n", elem->type, elem->health,
+                    totem->type);
+                elem->speed = (elem->alive == 0) ? 0 : elem->speed;
+                totem->current_er++;
+                printf("Tower %s -> (%d/%d)\n", totem->type, totem->current_er,
+                    totem->stat->max_e);
+                if (totem->current_er >= totem->stat->max_e) {
+                    totem->current_cd = player->secs;
+                    totem->current_er = 0;
+                    break;
+                }
+            }
+        }
+    totem->current_cd =
+        (totem->current_er > 0) ? player->secs : totem->current_cd;
+    totem->current_er = 0;
+}
+
+void monsters_damage(player_t *player)
+{
+    for (int i = 0; player->totems[i] != NULL; i++) {
+        if (my_strcmp(player->totems[i]->type, "none") != 0) {
+            search_monsters(player->monsters, player->totems[i], player);
+        }
+    }
+}
+
+void generate_wave(player_t *player, sfRenderWindow *window)
+{
+    srand((unsigned int)player->secs);
+
+    for (int i = 0; i < player->waves * 2; i++) {
+        if (rand() % 2 == 1)
+            add_penguin(player->monsters, i, player->waves);
+        else
+            add_bull(player->monsters, i, player->waves);
+    }
 }
 
 int start_game(player_t *player, sfRenderWindow *window)
@@ -206,8 +278,23 @@ int start_game(player_t *player, sfRenderWindow *window)
         sfText_setString(player->enemies_t, my_itoa(player->enemies_r));
         move_monster(player, window);
         display_game(player, window);
+        player->enemies_r = monsters_remaining(player->monsters);
+        if (player->enemies_r == 0) {
+            player->waves++;
+            generate_wave(player, window);
+        }
     }
     return (0);
+}
+
+int monsters_remaining(list *list)
+{
+    int count = 0;
+    monster_t *elem = list->head;
+
+    for (; elem != NULL; elem = elem->next)
+        count += (elem->alive == 1) ? 1 : 0;
+    return (count);
 }
 
 int game_start(sfRenderWindow *window)
@@ -216,10 +303,12 @@ int game_start(sfRenderWindow *window)
     player->market_spr = totem_menu_gen(CONSTRUCT_TXT);
     player->upgrader_spr = totem_menu_gen(UPGRADER_TXT);
     player->monsters = monster_list_init();
-    add_penguin(player->monsters);
-    add_bull(player->monsters);
+    add_penguin(player->monsters, 1, 1);
+    add_bull(player->monsters, 2, 1);
     player->clock = sfClock_create();
     player->market_d = 0;
+    player->life = 5000;
+    player->secs = 0;
     start_game(player, window);
     return (0);
 }

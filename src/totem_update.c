@@ -9,7 +9,7 @@
 
 int is_enough_money(player_t *player, char *type)
 {
-    int money;
+    int money = 0;
 
     money = (my_strcmp(type, "fire") == 0) ? FIRE_TOTEM_LVL[0].cost : money;
     money = (my_strcmp(type, "dark") == 0) ? DARK_TOTEM_LVL[0].cost : money;
@@ -32,12 +32,12 @@ totem_t *build_totem(totem_t *totem, char *type, player_t *player)
     char *s = NULL;
     int money;
 
+    if (is_enough_money(player, type) == 0)
+        return (totem);
     if (totem->lvl > 0)
         upgrade_totem(totem, type, player);
     totem->type = type;
     totem->lvl = 0;
-    if (is_enough_money(player, type) == 0)
-        return (totem);
     s = find_totem_texture(type, s);
     totem->text = sfTexture_createFromFile(s, NULL);
     sfSprite_setTexture(totem->spr, totem->text, sfTrue);
@@ -57,6 +57,8 @@ totem_t *upgrade_totem(totem_t *tot, char *type, player_t *p)
         if (my_strcmp(tot->type, "none") == 0)
             tot = build_totem(tot, type, p);
     } else {
+        if (tot->lvl >= 10)
+            return (tot);
         tot = (my_strcmp(tot->type, "storm")) == 0 ? s_up(tot, p) : tot;
         tot = (my_strcmp(tot->type, "dark")) == 0 ? d_up(tot, p) : tot;
         tot = (my_strcmp(tot->type, "bubble")) == 0 ? b_up(tot, p) : tot;
