@@ -29,7 +29,7 @@ void add_penguin(list *enemies, int position, int wave)
     monster_t *elem = malloc(sizeof(monster_t));
 
     elem->alive = 1;
-    elem->type = "Kamipenguin";
+    elem->type = my_strdup("Kamipenguin");
     elem->speed = 16;
     elem->health = 500 + 500 * ((wave - 1) / 2);
     elem->armor = 50;
@@ -52,7 +52,7 @@ void add_bull(list *enemies, int position, int wave)
     monster_t *elem = malloc(sizeof(monster_t));
 
     elem->alive = 1;
-    elem->type = "minotaure";
+    elem->type = my_strdup("minotaure");
     elem->speed = 4;
     elem->health = 1000 + 1000 * ((wave - 1) / 2);
     elem->armor = 100;

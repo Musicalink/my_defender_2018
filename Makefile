@@ -29,7 +29,7 @@ NAME    =       my_defender
 
 CFLAGS  =       -Iinclude
 
-SFFLAGS =       -lcsfml-graphics -lcsfml-system -lcsfml-window -lcsfml-audio -Llib/my -lmy
+SFFLAGS =       -lm -lcsfml-graphics -lcsfml-system -lcsfml-window -lcsfml-audio -Llib/my -lmy
 
 all:    $(NAME)
 

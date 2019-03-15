@@ -30,7 +30,7 @@ int monsters_remaining(list *list)
     return (count);
 }
 
-void free_list(list *enemies)
+list *free_list(list *enemies)
 {
     /*
 
@@ -49,6 +49,7 @@ void free_list(list *enemies)
         mon = tmp;
     }
     enemies = monster_list_init(0);
+    return (enemies);
 }
 
 int start_game(player_t *player, sfRenderWindow *window)
@@ -62,6 +63,7 @@ int start_game(player_t *player, sfRenderWindow *window)
         display_game(player, window);
         player->enemies_r = monsters_remaining(player->monsters);
         if (player->enemies_r == 0) {
+            player->monsters = free_list(player->monsters);
             player->waves++;
             generate_wave(player);
         }
