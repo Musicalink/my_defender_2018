@@ -129,9 +129,9 @@ int monsters_remaining(list *list);
 #define UPGRADER_TXT "./ressources/upgrade_menu.png"
 #define FONT "ressources/font.ttf"
 #define KAMIKAZE "./ressources/boumboum.png"
-#define MINOTAURE "./ressources/minotaure.png"
+#define MINOTAUR "./ressources/minotaure.png"
 #define KAMIKAZE_R "./ressources/boumboum_r.png"
-#define MINOTAURE_R "./ressources/minotaure_r.png"
+#define MINOTAUR_R "./ressources/minotaure_r.png"
 
 static const sfColor COLORS[] = {{.r=255, .g=0, .b=0, .a=36},
     {.r=255, .g=0, .b=0, .a=80}, {.r=0, .g=0, .b=255, .a=36},
