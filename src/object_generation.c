@@ -46,7 +46,7 @@ void gen_circle(totem_t *totem)
     sfColor color2 = get_color(totem->type, 1);
 
     totem->circle = sfCircleShape_create();
-    sfCircleShape_setRadius(totem->circle, totem->stat->range);
+    sfCircleShape_setRadius(totem->circle, totem->stat->rng);
     width = sfCircleShape_getGlobalBounds(totem->circle).width / 2;
     sfCircleShape_setOrigin(totem->circle, (sfVector2f){width, width});
     sfCircleShape_setPosition(totem->circle, aselelelelalele);
@@ -67,8 +67,8 @@ totem_t *generate_totem(float y, float x)
     totem->stat->spd = 0;
     totem->stat->cd = 0;
     totem->stat->max_e = 0;
-    totem->stat->range = 0;
-    totem->stat->cost = 0;
+    totem->stat->rng = 0;
+    totem->stat->cst = 0;
     totem->spr = sfSprite_create();
     totem->pos.x = x + 7;
     totem->pos.y = y - 80;
@@ -86,6 +86,6 @@ int atk;
 float spd;
 float cd;
 int max_e;
-int range;
-int cost;
+int rng;
+int cst;
  */

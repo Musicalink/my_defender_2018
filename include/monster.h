@@ -43,8 +43,8 @@ float cd;
 
 int max_e;
 
-int range;
+int rng;
 
-int cost;
+int cst;
 
 #endif /*MONSTER_H_*/

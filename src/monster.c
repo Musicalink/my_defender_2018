@@ -61,8 +61,8 @@ void add_bull(list *enemies, int position, int wave)
     elem->a_speed = 0;
     elem->a_damage = 200;
     elem->value = 125;
-    elem->text = sfTexture_createFromFile(MINOTAURE, NULL);
-    elem->rev = sfTexture_createFromFile(MINOTAURE_R, NULL);
+    elem->text = sfTexture_createFromFile(MINOTAUR, NULL);
+    elem->rev = sfTexture_createFromFile(MINOTAUR_R, NULL);
     elem->pos.x = -40 * position;
     elem->pos.y = 860;
     elem->road = 0;

@@ -147,7 +147,7 @@ void totem_info(totem_t *totem, int i)
         totem->stat->spd);
     printf("Cooldown: %.2f\nMax Enemies: %d\n", totem->stat->cd,
         totem->stat->max_e);
-    printf("Range: %d\nCost: %d\n", totem->stat->range, totem->stat->cost);
+    printf("rng: %d\ncst: %d\n", totem->stat->rng, totem->stat->cst);
     printf("_________\n");
 }
 
@@ -170,7 +170,7 @@ player_t *my_event(player_t *player, sfRenderWindow *window)
     return (player);
 }
 
-double check_range(monster_t *monster, totem_t *totem)
+double check_rng(monster_t *monster, totem_t *totem)
 {
     sfFloatRect monsters_c = sfSprite_getGlobalBounds(monster->spr);
     float monster_mx = monsters_c.left + monsters_c.width / 2;
@@ -192,6 +192,19 @@ void display_monsters(player_t *player, sfRenderWindow *window)
             sfRenderWindow_drawSprite(window, elem->spr, NULL);
 }
 
+void draw_totem(sfRenderWindow *window, player_t *player, totem_t *totem)
+{
+    sfCircleShape *shape;
+
+    sfRenderWindow_drawSprite(window, totem->spr, NULL);
+    if ((player->market_d == 1 || player->upgrader_d == 1)) {
+        if (my_strcmp(player->totems[player->m_sel]->type, "none") != 0) {
+            shape = player->totems[player->m_sel]->circle;
+            sfRenderWindow_drawCircleShape(window, shape, NULL);
+        }
+    }
+}
+
 void display_game(player_t *player, sfRenderWindow *window)
 {
     sfRenderWindow_clear(window, sfBlack);
@@ -202,9 +215,7 @@ void display_game(player_t *player, sfRenderWindow *window)
     display_monsters(player, window);
     for (int i = 0; player->totems[i] != NULL; i++)
         if (my_strcmp(player->totems[i]->type, "none") != 0) {
-            sfRenderWindow_drawSprite(window, player->totems[i]->spr, NULL);
-            sfRenderWindow_drawCircleShape(window, player->totems[i]->circle,
-                NULL);
+            draw_totem(window, player, player->totems[i]);
         }
     if (player->market_d == 1)
         sfRenderWindow_drawSprite(window, player->market_spr, NULL);
@@ -213,35 +224,37 @@ void display_game(player_t *player, sfRenderWindow *window)
     sfRenderWindow_display(window);
 }
 
+void make_shot(monster_t *elem, totem_t *totem, player_t *player)
+{
+
+    if (player->secs - totem->current_cd > totem->stat->cd) {
+        elem->health -= totem->stat->atk;
+        elem->speed -= (int)totem->stat->spd;
+        elem->speed = (elem->speed < 1) ? 1 : elem->speed;
+        elem->alive = (elem->health <= 0) ? 0 : 1;
+        player->money += (elem->alive == 0) ? elem->value : 0;
+        elem->value = (elem->alive == 0) ? 0 : elem->value;
+        printf("%s is now %d HP (%s)\n", elem->type, elem->health, totem->type);
+        elem->speed = (elem->alive == 0) ? 0 : elem->speed;
+        totem->current_er++;
+        if (totem->current_er >= totem->stat->max_e) {
+            totem->current_cd = player->secs;
+            totem->current_er = 0;
+        }
+    }
+}
+
 void search_monsters(list *monsters, totem_t *totem, player_t *player)
 {
     monster_t *elem = monsters->head;
 
     for (; elem != NULL; elem = elem->next)
-        if (check_range(elem, totem) < totem->stat->range && elem->alive == 1) {
+        if (check_rng(elem, totem) < totem->stat->rng && elem->alive == 1) {
             totem->rect.left += 56;
             if (totem->rect.left > 56 * 6)
                 totem->rect.left = 0;
             sfSprite_setTextureRect(totem->spr, totem->rect);
-            if (player->secs - totem->current_cd > totem->stat->cd) {
-                elem->health -= totem->stat->atk;
-                elem->speed -= (int)totem->stat->spd;
-                elem->speed = (elem->speed < 1) ? 1 : elem->speed;
-                elem->alive = (elem->health <= 0) ? 0 : 1;
-                player->money += (elem->alive == 0) ? elem->value : 0;
-                elem->value = (elem->alive == 0) ? 0 : elem->value;
-                printf("%s is now %d HP (%s)\n", elem->type, elem->health,
-                    totem->type);
-                elem->speed = (elem->alive == 0) ? 0 : elem->speed;
-                totem->current_er++;
-                printf("Tower %s -> (%d/%d)\n", totem->type, totem->current_er,
-                    totem->stat->max_e);
-                if (totem->current_er >= totem->stat->max_e) {
-                    totem->current_cd = player->secs;
-                    totem->current_er = 0;
-                    break;
-                }
-            }
+            make_shot(elem, totem, player);
         }
     totem->current_cd =
         (totem->current_er > 0) ? player->secs : totem->current_cd;
@@ -302,7 +315,7 @@ int game_start(sfRenderWindow *window)
     player_t *player = generate_game();
     player->market_spr = totem_menu_gen(CONSTRUCT_TXT);
     player->upgrader_spr = totem_menu_gen(UPGRADER_TXT);
-    player->monsters = monster_list_init();
+    player->monsters = monster_list_init();//perica.bekavac@ibm.com
     add_penguin(player->monsters, 1, 1);
     add_bull(player->monsters, 2, 1);
     player->clock = sfClock_create();

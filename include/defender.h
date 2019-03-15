@@ -120,6 +120,8 @@ void monsters_damage(player_t *player);
 
 int monsters_remaining(list *list);
 
+void make_shot(monster_t *elem, totem_t *totem, player_t *player);
+
 #define GAME_BG "./ressources/game_bg.png"
 #define DARK_T "./ressources/dark.png"
 #define FIRE_T "./ressources/fire.png"

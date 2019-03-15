@@ -11,10 +11,10 @@ int is_enough_money(player_t *player, char *type)
 {
     int money = 0;
 
-    money = (my_strcmp(type, "fire") == 0) ? FIRE_TOTEM_LVL[0].cost : money;
-    money = (my_strcmp(type, "dark") == 0) ? DARK_TOTEM_LVL[0].cost : money;
-    money = (my_strcmp(type, "bubble") == 0) ? BUBBLE_TOTEM_LVL[0].cost : money;
-    money = (my_strcmp(type, "storm") == 0) ? STORM_TOTEM_LVL[0].cost : money;
+    money = (my_strcmp(type, "fire") == 0) ? FIRE_TOTEM_LVL[0].cst : money;
+    money = (my_strcmp(type, "dark") == 0) ? DARK_TOTEM_LVL[0].cst : money;
+    money = (my_strcmp(type, "bubble") == 0) ? BUBBLE_TOTEM_LVL[0].cst : money;
+    money = (my_strcmp(type, "storm") == 0) ? STORM_TOTEM_LVL[0].cst : money;
     return ((player->money < money) ? 0 : 1);
 }
 
@@ -73,6 +73,6 @@ totem_t *upgrade_totem(totem_t *tot, char *type, player_t *p)
     float speeder;
     float cd;
     int max_e;
-    int range;
-    int cost;
+    int rng;
+    int cst;
     */
