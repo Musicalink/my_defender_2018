@@ -108,9 +108,9 @@ void display_game(player_t *player, sfRenderWindow *window);
 
 void add_bull(list *enemies, int position, int wave);
 
-list *monster_list_init(void);
+list *monster_list_init(int first_time);
 
-void my_flip(monster_t *elem, int diff);
+void my_flip(monster_t *elem, int diff, list *enemies);
 
 void check_explose(monster_t *elem, player_t *player);
 
@@ -121,6 +121,24 @@ void monsters_damage(player_t *player);
 int monsters_remaining(list *list);
 
 void make_shot(monster_t *elem, totem_t *totem, player_t *player);
+
+void make_move(monster_t *elem);
+
+void move_monster(player_t *player, sfRenderWindow *window);
+
+player_t *generate_game(void);
+
+int game_start(sfRenderWindow *window);
+
+void display_monsters(player_t *player, sfRenderWindow *window);
+
+void draw_totem(sfRenderWindow *window, player_t *player, totem_t *totem);
+
+void display_game(player_t *player, sfRenderWindow *window);
+
+void generate_wave(player_t *player);
+
+void my_movement(monster_t *elem, list *enemies);
 
 #define GAME_BG "./ressources/game_bg.png"
 #define DARK_T "./ressources/dark.png"

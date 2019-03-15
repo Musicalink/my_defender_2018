@@ -19,8 +19,8 @@ typedef struct monster {
     int road;
     int value;
     sfSprite *spr;
-    sfTexture *text;
-    sfTexture *rev;
+  //  sfTexture *text;
+    //sfTexture *rev;
     sfIntRect rect;
     sfVector2f pos;
     struct monster *next;
@@ -31,6 +31,10 @@ typedef struct list_m {
     int size;
     monster_t *head;
     monster_t *tail;
+    sfTexture *penguin;
+    sfTexture *penguin_r;
+    sfTexture *minotaur;
+    sfTexture *minotaur_r;
 } list;
 
 int level;

@@ -35,8 +35,6 @@ void add_penguin(list *enemies, int position, int wave)
     elem->armor = 50;
     elem->a_speed = 0;
     elem->a_damage = 100;
-    elem->text = sfTexture_createFromFile(KAMIKAZE, NULL);
-    elem->rev = sfTexture_createFromFile(KAMIKAZE_R, NULL);
     elem->pos.x = -40 * position;
     elem->pos.y = 860;
     elem->road = 0;
@@ -44,7 +42,7 @@ void add_penguin(list *enemies, int position, int wave)
     elem->rect = create_rect(0, 0, 81, 81);
     elem->spr = sfSprite_create();
     sfSprite_setPosition(elem->spr, elem->pos);
-    sfSprite_setTexture(elem->spr, elem->text, sfTrue);
+    sfSprite_setTexture(elem->spr, enemies->penguin, sfTrue);
     sfSprite_setTextureRect(elem->spr, elem->rect);
     add_element_to_list(enemies, elem);
 }
@@ -61,20 +59,18 @@ void add_bull(list *enemies, int position, int wave)
     elem->a_speed = 0;
     elem->a_damage = 200;
     elem->value = 125;
-    elem->text = sfTexture_createFromFile(MINOTAUR, NULL);
-    elem->rev = sfTexture_createFromFile(MINOTAUR_R, NULL);
     elem->pos.x = -40 * position;
     elem->pos.y = 860;
     elem->road = 0;
     elem->rect = create_rect(0, 0, 81, 81);
     elem->spr = sfSprite_create();
     sfSprite_setPosition(elem->spr, elem->pos);
-    sfSprite_setTexture(elem->spr, elem->text, sfTrue);
+    sfSprite_setTexture(elem->spr, enemies->minotaur, sfTrue);
     sfSprite_setTextureRect(elem->spr, elem->rect);
     add_element_to_list(enemies, elem);
 }
 
-list *monster_list_init(void)
+list *monster_list_init(int first_time)
 {
     list *new_list = NULL;
 
@@ -83,6 +79,24 @@ list *monster_list_init(void)
         new_list->size = 0;
         new_list->head = NULL;
         new_list->tail = NULL;
+        if (first_time == 1) {
+            new_list->minotaur = sfTexture_createFromFile(MINOTAUR, NULL);
+            new_list->minotaur_r = sfTexture_createFromFile(MINOTAUR_R, NULL);
+            new_list->penguin = sfTexture_createFromFile(KAMIKAZE, NULL);
+            new_list->penguin_r = sfTexture_createFromFile(KAMIKAZE_R, NULL);
+        }
     }
     return (new_list);
+}
+
+void generate_wave(player_t *player)
+{
+    srand((unsigned int)player->secs);
+
+    for (int i = 0; i < player->waves * 2; i++) {
+        if (rand() % 2 == 1)
+            add_penguin(player->monsters, i, player->waves);
+        else
+            add_bull(player->monsters, i, player->waves);
+    }
 }

@@ -14,7 +14,7 @@ char *my_itoa(int nb)
     int incrementer = 0;
     int buffer = nb;
 
-    str = malloc(sizeof(char) * my_intlen(nb) + (nb < 0) ? 2 : 1);
+    str = malloc(sizeof(char) * my_intlen(nb) + ((nb < 0) ? 2 : 1));
     nb *= (nb < 0) ? -1 : 1;
     if (nb == 0)
         return ("0");
