@@ -162,6 +162,7 @@ my_sound_t *generate_sound(char *path, int vol);
 #define PENGUIN_S "./ressources/penguin.ogg"
 #define MINOTAUR_S "./ressources/meuh.ogg"
 #define MUSIC "./ressources/music.ogg"
+#define PAUSE_B "./ressources/pause.jpg"
 
 static const sfColor COLORS[] = {{.r=255, .g=0, .b=0, .a=36},
     {.r=255, .g=0, .b=0, .a=80}, {.r=0, .g=0, .b=255, .a=36},
