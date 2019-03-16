@@ -48,12 +48,36 @@ list *free_list(list *enemies)
     return (enemies);
 }
 
+void free_end(player_t *player)
+{
+    sfClock_destroy(player->clock);
+    sfText_destroy(player->money_t);
+    sfText_destroy(player->waves_t);
+    sfText_destroy(player->enemies_t);
+    sfSprite_destroy(player->w_spr);
+    sfTexture_destroy(player->w_txt);
+    sfTexture_destroy(player->upgrader_tex);
+    sfTexture_destroy(player->market_tex);
+    sfSprite_destroy(player->market_spr);
+    sfSprite_destroy(player->upgrader_spr);
+    free_list(player->monsters);
+    free(player->monsters);
+    for (int i = 0; player->totems[i] != NULL; i++) {
+        free(player->totems[i]->type);
+        free(player->totems[i]->stat);
+        sfSprite_destroy(player->totems[i]->spr);
+        sfTexture_destroy(player->totems[i]->text);
+        sfCircleShape_destroy(player->totems[i]->circle);
+        free(player->totems[i]);
+    }
+    free(player->totems);
+}
+
 int start_game(player_t *player, sfRenderWindow *window)
 {
     while (sfRenderWindow_isOpen(window)) {
         player = my_clock(player, window);
         sfText_setString(player->money_t, my_itoa(player->money));
-        sfText_setString(player->waves_t, my_itoa(player->waves));
         sfText_setString(player->enemies_t, my_itoa(player->enemies_r));
         move_monster(player, window);
         display_game(player, window);
@@ -61,8 +85,11 @@ int start_game(player_t *player, sfRenderWindow *window)
         if (player->enemies_r == 0) {
             player->monsters = free_list(player->monsters);
             player->waves++;
+            sfText_setString(player->waves_t, my_itoa(player->waves));
             generate_wave(player);
         }
     }
+    free_end(player);
+    free(player);
     return (0);
 }

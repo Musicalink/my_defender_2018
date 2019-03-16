@@ -41,6 +41,8 @@ typedef struct player {
     int market_d;
     sfSprite *market_spr;
     sfSprite *upgrader_spr;
+    sfTexture *market_tex;
+    sfTexture *upgrader_tex;
     int upgrader_d;
     float secs;
     int m_sel;
@@ -70,7 +72,7 @@ totem_t *b_up(totem_t *totem, player_t *player);
 
 totem_t *f_up(totem_t *totem, player_t *player);
 
-sfSprite *totem_menu_gen(char *path);
+player_t *totem_menu_gen(player_t *player);
 
 totem_t *build_totem(totem_t *totem, char *type, player_t *player);
 

@@ -32,8 +32,7 @@ player_t *generate_game(void)
 int game_start(sfRenderWindow *window)
 {
     player_t *player = generate_game();
-    player->market_spr = totem_menu_gen(CONSTRUCT_TXT);
-    player->upgrader_spr = totem_menu_gen(UPGRADER_TXT);
+    player = totem_menu_gen(player);
     player->monsters = monster_list_init();//perica.bekavac@ibm.com
     add_penguin(player->monsters, 1, 1);
     add_bull(player->monsters, 2, 1);

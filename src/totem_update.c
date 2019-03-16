@@ -36,7 +36,7 @@ totem_t *build_totem(totem_t *totem, char *type, player_t *player)
         return (totem);
     if (totem->lvl > 0)
         upgrade_totem(totem, type, player);
-    totem->type = type;
+    totem->type = my_strdup(type);
     totem->lvl = 0;
     s = find_totem_texture(type, s);
     totem->text = sfTexture_createFromFile(s, NULL);
@@ -66,13 +66,3 @@ totem_t *upgrade_totem(totem_t *tot, char *type, player_t *p)
     }
     return (tot);
 }
-
-/*
-    int lvl;
-    int attack;
-    float speeder;
-    float cd;
-    int max_e;
-    int rng;
-    int cst;
-    */
