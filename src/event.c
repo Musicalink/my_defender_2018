@@ -34,8 +34,8 @@ player_t *my_event(player_t *player, sfRenderWindow *window)
     while (sfRenderWindow_pollEvent(window, &event)) {
         if (event.type == sfEvtClosed)
             sfRenderWindow_close(window);
-        else if (sfKeyboard_isKeyPressed(sfKeyQ) == 1)
-            sfRenderWindow_close(window);
+        else if (sfKeyboard_isKeyPressed(sfKeyEscape) == 1)
+            pause_menu(window);
         if (event.type == sfEvtMouseButtonPressed)
             my_click_event(player, cursor_pos);
     }

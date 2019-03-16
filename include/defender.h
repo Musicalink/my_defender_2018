@@ -51,6 +51,8 @@ typedef struct player {
     sfTime elapsed;
 } player_t;
 
+int pause_menu(sfRenderWindow *);
+
 menu_t *init_menu(char *);
 
 sfIntRect create_IntRect(int top, int left, int width, int height);
