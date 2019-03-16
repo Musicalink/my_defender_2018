@@ -27,6 +27,10 @@ void make_shot(monster_t *elem, totem_t *totem, player_t *player)
         elem->health -= totem->stat->atk;
         elem->speed -= (int)totem->stat->spd;
         elem->speed = (elem->speed < 1) ? 1 : elem->speed;
+        if (elem->health <= 0 && elem->alive == 1 && elem->type[0] == 'K')
+            sfSound_play(player->monsters->penguin_s->sound);
+        else if (elem->health <= 0 && elem->alive == 1 && elem->type[0] != 'K')
+            sfSound_play(player->monsters->minotaur_s->sound);
         elem->alive = (elem->health <= 0) ? 0 : 1;
         player->money += (elem->alive == 0) ? elem->value : 0;
         elem->value = (elem->alive == 0) ? 0 : elem->value;

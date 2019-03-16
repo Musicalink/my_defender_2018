@@ -40,6 +40,13 @@ int game_start(sfRenderWindow *window)
     player->market_d = 0;
     player->life = 5000;
     player->secs = 0;
+    player->monsters->penguin_s = generate_sound(PENGUIN_S, 200);
+    player->monsters->minotaur_s = generate_sound(MINOTAUR_S, 60);
+    player->music = sfMusic_createFromFile(MUSIC);
+    sfMusic_setLoop(player->music, 1);
+    sfMusic_setVolume(player->music, 20);
+    sfMusic_play(player->music);
+    sfRenderWindow_setFramerateLimit(window, 60);
     start_game(player, window);
     return (0);
 }

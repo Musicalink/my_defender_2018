@@ -46,6 +46,9 @@ typedef struct player {
     int upgrader_d;
     float secs;
     int m_sel;
+    sfMusic *music;
+    sfTime b_elapsed;
+    sfTime elapsed;
 } player_t;
 
 menu_t *init_menu(char *);
@@ -124,7 +127,7 @@ int monsters_remaining(list *list);
 
 void make_shot(monster_t *elem, totem_t *totem, player_t *player);
 
-void make_move(monster_t *elem);
+void make_move(monster_t *elem, player_t *player);
 
 void move_monster(player_t *player, sfRenderWindow *window);
 
@@ -140,7 +143,9 @@ void display_game(player_t *player, sfRenderWindow *window);
 
 void generate_wave(player_t *player);
 
-void my_movement(monster_t *elem, list *enemies);
+void my_movement(monster_t *elem, list *enemies, player_t *player);
+
+my_sound_t *generate_sound(char *path, int vol);
 
 #define GAME_BG "./ressources/game_bg.png"
 #define DARK_T "./ressources/dark.png"
@@ -154,6 +159,9 @@ void my_movement(monster_t *elem, list *enemies);
 #define MINOTAUR "./ressources/minotaure.png"
 #define KAMIKAZE_R "./ressources/boumboum_r.png"
 #define MINOTAUR_R "./ressources/minotaure_r.png"
+#define PENGUIN_S "./ressources/penguin.ogg"
+#define MINOTAUR_S "./ressources/meuh.ogg"
+#define MUSIC "./ressources/music.ogg"
 
 static const sfColor COLORS[] = {{.r=255, .g=0, .b=0, .a=36},
     {.r=255, .g=0, .b=0, .a=80}, {.r=0, .g=0, .b=255, .a=36},

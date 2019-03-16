@@ -8,6 +8,11 @@
 #ifndef MONSTER_H_
 #define MONSTER_H_
 
+typedef struct my_sound {
+    sfSound *sound;
+    sfSoundBuffer *buffer;
+} my_sound_t;
+
 typedef struct monster {
     char *type;
     int alive;
@@ -19,8 +24,6 @@ typedef struct monster {
     int road;
     int value;
     sfSprite *spr;
-  //  sfTexture *text;
-    //sfTexture *rev;
     sfIntRect rect;
     sfVector2f pos;
     struct monster *next;
@@ -35,6 +38,8 @@ typedef struct list_m {
     sfTexture *penguin_r;
     sfTexture *minotaur;
     sfTexture *minotaur_r;
+    my_sound_t *penguin_s;
+    my_sound_t *minotaur_s;
 } list;
 
 int level;
