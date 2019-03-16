@@ -79,12 +79,10 @@ list *monster_list_init(int first_time)
         new_list->size = 0;
         new_list->head = NULL;
         new_list->tail = NULL;
-        if (first_time == 1) {
-            new_list->minotaur = sfTexture_createFromFile(MINOTAUR, NULL);
-            new_list->minotaur_r = sfTexture_createFromFile(MINOTAUR_R, NULL);
-            new_list->penguin = sfTexture_createFromFile(KAMIKAZE, NULL);
-            new_list->penguin_r = sfTexture_createFromFile(KAMIKAZE_R, NULL);
-        }
+        new_list->minotaur = sfTexture_createFromFile(MINOTAUR, NULL);
+        new_list->minotaur_r = sfTexture_createFromFile(MINOTAUR_R, NULL);
+        new_list->penguin = sfTexture_createFromFile(KAMIKAZE, NULL);
+        new_list->penguin_r = sfTexture_createFromFile(KAMIKAZE_R, NULL);
     }
     return (new_list);
 }

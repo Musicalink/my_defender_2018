@@ -108,7 +108,7 @@ void display_game(player_t *player, sfRenderWindow *window);
 
 void add_bull(list *enemies, int position, int wave);
 
-list *monster_list_init(int first_time);
+list *monster_list_init();
 
 void my_flip(monster_t *elem, int diff, list *enemies);
 

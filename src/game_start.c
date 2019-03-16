@@ -32,12 +32,6 @@ int monsters_remaining(list *list)
 
 list *free_list(list *enemies)
 {
-    /*
-
-       sfIntRect rect;
-       sfVector2f pos;
-       struct monster *next;
-       struct monster *prev;*/
     monster_t *mon = enemies->head;
     monster_t *tmp;
 
@@ -48,7 +42,9 @@ list *free_list(list *enemies)
         free(mon);
         mon = tmp;
     }
-    enemies = monster_list_init(0);
+    enemies->size = 0;
+    enemies->head = NULL;
+    enemies->tail = NULL;
     return (enemies);
 }
 

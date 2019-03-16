@@ -70,6 +70,5 @@ int my_click_event(player_t *player, sfVector2i cursor)
         upgrade_handler(player, cursor);
     else
         touch_check(player, cursor);
-
     return (0);
 }
