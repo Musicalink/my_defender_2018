@@ -63,11 +63,13 @@ void free_end(player_t *player)
     free_list(player->monsters);
     free(player->monsters);
     for (int i = 0; player->totems[i] != NULL; i++) {
+	if (my_strcmp(player->totems[i]->type, "none") != 0) {
+	    sfCircleShape_destroy(player->totems[i]->circle);
+	    sfTexture_destroy(player->totems[i]->text);
+	}
         free(player->totems[i]->type);
         free(player->totems[i]->stat);
         sfSprite_destroy(player->totems[i]->spr);
-        sfTexture_destroy(player->totems[i]->text);
-        sfCircleShape_destroy(player->totems[i]->circle);
         free(player->totems[i]);
     }
     free(player->totems);

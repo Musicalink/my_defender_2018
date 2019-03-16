@@ -35,7 +35,7 @@ all:    $(NAME)
 
 $(NAME):	$(OBJ)
 	make -C ./lib/my
-	gcc -o $(NAME) $(OBJ) $(SFFLAGS) $(CFLAGS)
+	gcc -o $(NAME) $(OBJ) $(SFFLAGS) -g $(CFLAGS)
 
 clean:
 	rm -f $(OBJ)

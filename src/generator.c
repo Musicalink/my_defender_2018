@@ -38,6 +38,7 @@ int game_start(sfRenderWindow *window)
     add_bull(player->monsters, 2, 1);
     player->clock = sfClock_create();
     player->market_d = 0;
+    player->upgrader_d = 0;
     player->life = 5000;
     player->secs = 0;
     start_game(player, window);
