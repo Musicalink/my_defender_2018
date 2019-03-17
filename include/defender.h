@@ -22,8 +22,18 @@ typedef struct menu {
     sfSprite *sprite;
     sfTexture *texture;
     sfIntRect rect;
+    sfText *text;
     int launch_game;
 } menu_t;
+
+typedef struct life_bar {
+    sfSprite *green_s;
+    sfTexture *green_t;
+    sfIntRect green_r;
+    sfSprite *red_s;
+    sfTexture *red_t;
+    sfIntRect red_r;
+} lifebar_t;
 
 typedef struct player {
     int launch_menu;
@@ -51,6 +61,7 @@ typedef struct player {
     sfMusic *music;
     sfTime b_elapsed;
     sfTime elapsed;
+    lifebar_t *lifebar;
 } player_t;
 
 int pause_menu(sfRenderWindow *, player_t *);
@@ -141,6 +152,10 @@ void draw_totem(sfRenderWindow *window, player_t *player, totem_t *totem);
 
 void display_game(player_t *player, sfRenderWindow *window);
 
+int take_percentage(player_t *player);
+
+int lose(sfRenderWindow *window, int nb);
+
 void generate_wave(player_t *player);
 
 void my_movement(monster_t *elem, list *enemies, player_t *player);
@@ -189,6 +204,8 @@ totem_t *create_totem(totem_t *totem, char *type);
 #define MUSIC "./resources/music.ogg"
 #define PAUSE_B "./resources/pause.jpg"
 #define TITLE "Gold Rush"
+#define GREENBAR "./resources/green_bar.png"
+#define REDBAR "./resources/red_bar.png"
 
 static const sfColor COLORS[] = {{.r=255, .g=0, .b=0, .a=36},
     {.r=255, .g=0, .b=0, .a=80}, {.r=0, .g=0, .b=255, .a=36},

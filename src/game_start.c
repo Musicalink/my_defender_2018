@@ -36,15 +36,25 @@ void after_game(player_t *player, sfRenderWindow *window)
 {
     free_end(player);
     free(player);
-    if (player->launch_menu == 1) {
+    if (player->launch_menu == 1)
         game_menu(init_menu(MENU), window);
-    }
+    else if (player->life <= 0)
+        lose(window, player->waves);
+}
+
+int window_need_open(player_t *player, sfRenderWindow *window)
+{
+    if (player->life <= 0)
+        return (0);
+    else if (sfRenderWindow_isOpen(window) && player->launch_menu == 0)
+        return (1);
+    return (0);
 }
 
 int start_game(player_t *player, sfRenderWindow *window)
 {
     player->elapsed = sfClock_getElapsedTime(player->clock);
-    while (sfRenderWindow_isOpen(window) && player->launch_menu == 0) {
+    while (window_need_open(player, window) == 1) {
         sfText_setString(player->money_t, my_itoa(player->money));
         sfText_setString(player->enemies_t, my_itoa(player->enemies_r));
         move_monster(player, window);

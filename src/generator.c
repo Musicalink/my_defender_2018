@@ -30,6 +30,23 @@ player_t *generate_game(void)
     return (player);
 }
 
+lifebar_t *generate_health_bar(lifebar_t *lifebar)
+{
+    lifebar = malloc(sizeof(lifebar_t));
+
+    lifebar->green_s = sfSprite_create();
+    lifebar->green_t = sfTexture_createFromFile(GREENBAR, NULL);
+    lifebar->green_r = create_rect(0, 0, 1920, 30);
+    sfSprite_setTexture(lifebar->green_s, lifebar->green_t, sfTrue);
+    sfSprite_setTextureRect(lifebar->green_s, lifebar->green_r);
+    lifebar->red_s = sfSprite_create();
+    lifebar->red_t = sfTexture_createFromFile(REDBAR, NULL);
+    lifebar->red_r = create_rect(0, 0, 1920, 30);
+    sfSprite_setTexture(lifebar->red_s, lifebar->red_t, sfTrue);
+    sfSprite_setTextureRect(lifebar->red_s, lifebar->red_r);
+    return (lifebar);
+}
+
 int game_start(sfRenderWindow *window)
 {
     player_t *player = generate_game();
@@ -49,6 +66,7 @@ int game_start(sfRenderWindow *window)
     sfMusic_setVolume(player->music, 20);
     sfMusic_play(player->music);
     sfRenderWindow_setFramerateLimit(window, 60);
+    player->lifebar = generate_health_bar(player->lifebar);
     start_game(player, window);
     return (0);
 }

@@ -42,7 +42,7 @@ totem_t *create_totem(totem_t *totem, char *type)
     totem->cost = sfText_create();
     totem->level = gen_text("1", 1010, 1630);
     totem->cost = gen_text("", 1010, 1810);
-    sfText_setColor(totem->cost, sfRed);
+    sfText_setColor(totem->cost, sfYellow);
     return (totem);
 }
 

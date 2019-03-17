@@ -30,7 +30,7 @@ void add_penguin(list *enemies, int position, int wave)
 
     elem->alive = 1;
     elem->type = my_strdup("Kamipenguin");
-    elem->speed = 12;
+    elem->speed = 8;
     elem->health = 500 + 500 * ((wave - 1) / 2);
     elem->armor = 50;
     elem->a_speed = 0;
@@ -53,7 +53,7 @@ void add_bull(list *enemies, int position, int wave)
 
     elem->alive = 1;
     elem->type = my_strdup("minotaur");
-    elem->speed = 8;
+    elem->speed = 12;
     elem->health = 1000 + 1000 * ((wave - 1) / 2);
     elem->armor = 100;
     elem->a_speed = 0;

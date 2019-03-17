@@ -23,6 +23,7 @@ SRC     =       src/main.c		\
                 src/event.c\
 				src/pause.c\
 				src/end_of_game.c\
+				src/lose.c\
 
 OBJ     =       $(SRC:.c=.o)
 

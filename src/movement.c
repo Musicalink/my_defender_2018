@@ -71,11 +71,11 @@ void move_monster(player_t *player, sfRenderWindow *window)
         sfSprite_setPosition(elem->spr, elem->pos);
         if (my_strcmp(elem->type, "Kamipenguin") == 0) {
             penguin_move(elem);
-            check_explose(elem, player);
         } else {
             elem->rect.left += 81;
             elem->rect.left = (elem->rect.left >= 81 * 7) ? 0 : elem->rect.left;
         }
+        check_explose(elem, player);
         sfSprite_setTextureRect(elem->spr, elem->rect);
     }
 }

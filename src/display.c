@@ -38,6 +38,15 @@ void draw_upgrade(player_t *player, sfRenderWindow *window)
     sfRenderWindow_drawText(window, player->totems[player->m_sel]->cost, NULL);
 }
 
+int take_percentage(player_t *player)
+{
+    float percentage = (float)player->life / 5000 * 100;
+    float width = player->lifebar->green_r.width;
+
+    width = (width * percentage) / 100;
+    return ((int)width);
+}
+
 void display_game(player_t *player, sfRenderWindow *window)
 {
     sfRenderWindow_clear(window, sfBlack);
@@ -53,5 +62,7 @@ void display_game(player_t *player, sfRenderWindow *window)
         sfRenderWindow_drawSprite(window, player->market_spr, NULL);
     else if (player->upgrader_d == 1)
         draw_upgrade(player, window);
+    sfRenderWindow_drawSprite(window, player->lifebar->red_s, NULL);
+    sfRenderWindow_drawSprite(window, player->lifebar->green_s, NULL);
     sfRenderWindow_display(window);
 }
