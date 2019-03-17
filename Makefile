@@ -8,7 +8,6 @@
 SRC     =       src/main.c		\
                 src/menu.c		\
                 src/game_start.c\
-                src/obj_gen_help.c\
                 src/object_generation.c\
                 src/totem_up.c\
                 src/totem_update.c\

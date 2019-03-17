@@ -22,6 +22,7 @@ double check_rng(monster_t *monster, totem_t *totem)
 
 void make_shot(monster_t *elem, totem_t *totem, player_t *player)
 {
+
     if (player->secs - totem->current_cd > totem->stat->cd) {
         elem->health -= totem->stat->atk;
         elem->speed -= (int)totem->stat->spd;
@@ -51,13 +52,12 @@ void search_monsters(list *monsters, totem_t *totem, player_t *player)
         if (check_rng(elem, totem) < totem->stat->rng && elem->alive == 1) {
             totem->rect.left += 56;
             left = (totem->rect.left > 56 * 6) ? 0 : totem->rect.left;
-            totem->rect.left = (left != 0) ? left : totem->rect.left;
-            left = 0;
+            totem->rect.left = left;
             sfSprite_setTextureRect(totem->spr, totem->rect);
             make_shot(elem, totem, player);
         }
-    if (totem->current_er > 0)
-        totem->current_cd = player->secs;
+    totem->current_cd =
+        (totem->current_er > 0) ? player->secs : totem->current_cd;
     totem->current_er = 0;
 }
 

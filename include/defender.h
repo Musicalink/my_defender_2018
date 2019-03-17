@@ -57,8 +57,6 @@ int pause_menu(sfRenderWindow *, player_t *);
 
 menu_t *init_menu(char *);
 
-sfIntRect create_IntRect(int top, int left, int width, int height);
-
 sfIntRect create_rect(int left, int top, int width, int height);
 
 void display_monsters(player_t *player, sfRenderWindow *window);
@@ -152,6 +150,8 @@ void free_totem_list(player_t *player);
 void free_end(player_t *player);
 
 list *free_list(list *enemies);
+
+totem_t *create_totem(totem_t *totem, char *type);
 
 my_sound_t *generate_sound(char *path, int vol);
 

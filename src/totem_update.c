@@ -27,6 +27,25 @@ char *find_totem_texture(char *type, char *s)
     return (s);
 }
 
+totem_t *create_totem(totem_t *totem, char *type)
+{
+    char *s = NULL;
+
+    totem->type = my_strdup(type);
+    totem->lvl = 0;
+    s = find_totem_texture(type, s);
+    totem->text = sfTexture_createFromFile(s, NULL);
+    sfSprite_setTexture(totem->spr, totem->text, sfTrue);
+    totem->rect = create_rect(0, 0, 56, 120);
+    sfSprite_setTextureRect(totem->spr, totem->rect);
+    totem->level = sfText_create();
+    totem->cost = sfText_create();
+    totem->level = gen_text("1", 1010, 1630);
+    totem->cost = gen_text("", 1010, 1810);
+    sfText_setColor(totem->cost, sfRed);
+    return (totem);
+}
+
 totem_t *build_totem(totem_t *totem, char *type, player_t *player)
 {
     char *s = NULL;
@@ -36,18 +55,7 @@ totem_t *build_totem(totem_t *totem, char *type, player_t *player)
         return (totem);
     if (totem->lvl > 0)
         upgrade_totem(totem, type, player);
-    totem->type = my_strdup(type);
-    totem->lvl = 0;
-    s = find_totem_texture(type, s);
-    totem->text = sfTexture_createFromFile(s, NULL);
-    sfSprite_setTexture(totem->spr, totem->text, sfTrue);
-    totem->rect = create_IntRect(0, 0, 56, 120);
-    sfSprite_setTextureRect(totem->spr, totem->rect);
-    totem->level = sfText_create();
-    totem->cost = sfText_create();
-    totem->level = gen_text("1", 1010, 1630);
-    totem->cost = gen_text("", 1010, 1810);
-    sfText_setColor(totem->cost, sfRed);
+    totem = create_totem(totem, type);
     totem = (my_strcmp(type, "fire") == 0) ? f_up(totem, player) : totem;
     totem = (my_strcmp(type, "dark") == 0) ? d_up(totem, player) : totem;
     totem = (my_strcmp(type, "bubble") == 0) ? b_up(totem, player) : totem;
