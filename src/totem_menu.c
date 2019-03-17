@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** totem_menu
 ** File description:
-** 
+**
 */
 
 #include "defender.h"
