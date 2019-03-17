@@ -40,6 +40,7 @@ typedef struct list_m {
     sfTexture *minotaur_r;
     my_sound_t *penguin_s;
     my_sound_t *minotaur_s;
+    my_sound_t *explode;
 } list;
 
 int level;

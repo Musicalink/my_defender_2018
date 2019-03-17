@@ -206,6 +206,7 @@ totem_t *create_totem(totem_t *totem, char *type);
 #define TITLE "Gold Rush"
 #define GREENBAR "./resources/green_bar.png"
 #define REDBAR "./resources/red_bar.png"
+#define EXPLODE "./resources/explode.ogg"
 
 static const sfColor COLORS[] = {{.r=255, .g=0, .b=0, .a=36},
     {.r=255, .g=0, .b=0, .a=80}, {.r=0, .g=0, .b=255, .a=36},

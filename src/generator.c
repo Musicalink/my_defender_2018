@@ -59,8 +59,9 @@ int game_start(sfRenderWindow *window)
     player->upgrader_d = 0;
     player->life = 5000;
     player->secs = 0;
-    player->monsters->penguin_s = generate_sound(PENGUIN_S, 200);
+    player->monsters->penguin_s = generate_sound(PENGUIN_S, 100);
     player->monsters->minotaur_s = generate_sound(MINOTAUR_S, 60);
+    player->monsters->explode = generate_sound(EXPLODE, 100);
     player->music = sfMusic_createFromFile(MUSIC);
     sfMusic_setLoop(player->music, 1);
     sfMusic_setVolume(player->music, 20);
