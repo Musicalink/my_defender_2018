@@ -36,7 +36,6 @@ int upgrade_handler(player_t *player, sfVector2i cursor)
 
 int market_or_upgrade(player_t *player, int i)
 {
-    totem_info(player->totems[i], i);
     if (player->totems[i]->lvl == 0)
         player->market_d = 1;
     else

@@ -47,9 +47,8 @@ void display_game(player_t *player, sfRenderWindow *window)
     sfRenderWindow_drawText(window, player->enemies_t, NULL);
     display_monsters(player, window);
     for (int i = 0; player->totems[i] != NULL; i++)
-        if (my_strcmp(player->totems[i]->type, "none") != 0) {
+        if (my_strcmp(player->totems[i]->type, "none") != 0)
             draw_totem(window, player, player->totems[i]);
-        }
     if (player->market_d == 1)
         sfRenderWindow_drawSprite(window, player->market_spr, NULL);
     else if (player->upgrader_d == 1)

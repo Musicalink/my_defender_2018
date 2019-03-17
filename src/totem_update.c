@@ -46,7 +46,7 @@ totem_t *build_totem(totem_t *totem, char *type, player_t *player)
     totem->level = sfText_create();
     totem->cost = sfText_create();
     totem->level = gen_text("1", 1010, 1630);
-    totem->cost = gen_text("", 1010, 1805);
+    totem->cost = gen_text("", 1010, 1810);
     sfText_setColor(totem->cost, sfRed);
     totem = (my_strcmp(type, "fire") == 0) ? f_up(totem, player) : totem;
     totem = (my_strcmp(type, "dark") == 0) ? d_up(totem, player) : totem;

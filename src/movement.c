@@ -7,30 +7,8 @@
 
 #include "defender.h"
 
-void my_flip(monster_t *elem, int diff, list *enemies)
+void move_helper(monster_t *elem, player_t *player, int speed)
 {
-    if (elem->road != diff && elem->road % 4 == 2) {
-        if (my_strcmp(elem->type, "minotaur") == 0)
-            sfSprite_setTexture(elem->spr, enemies->minotaur_r, sfTrue);
-        else
-            sfSprite_setTexture(elem->spr, enemies->penguin_r, sfTrue);
-    } else if (elem->road != diff && elem->road % 4 == 0) {
-        if (my_strcmp(elem->type, "minotaur") == 0)
-            sfSprite_setTexture(elem->spr, enemies->minotaur, sfTrue);
-        else
-            sfSprite_setTexture(elem->spr, enemies->penguin, sfTrue);
-    }
-}
-
-void make_move(monster_t *elem, player_t *player)
-{
-    sfTime time = sfClock_getElapsedTime(player->clock);
-    int speed = elem->speed;
-    sfTime elapsed;
-
-    elapsed.microseconds = time.microseconds - player->time.microseconds;
-    player->time = time;
-    speed *= (int)((elapsed.microseconds / 1000000) / 0.05) + 1;
     elem->pos.x += (elem->road == 0 && elem->pos.x < 1700) ? speed : 0;
     elem->road += (elem->road == 0 && elem->pos.x >= 1700) ? 1 : 0;
     elem->pos.y -= (elem->road == 1 && elem->pos.y > 120) ? speed : 0;
@@ -49,6 +27,18 @@ void make_move(monster_t *elem, player_t *player)
     elem->road += (elem->road == 7 && elem->pos.y >= 467) ? 1 : 0;
     elem->pos.x += (elem->road == 8 && elem->pos.x < 1185) ? speed : 0;
     elem->road += (elem->road == 8 && elem->pos.x >= 1185) ? 1 : 0;
+}
+
+void make_move(monster_t *elem, player_t *player)
+{
+    sfTime time = sfClock_getElapsedTime(player->clock);
+    int speed = elem->speed;
+    sfTime elapsed;
+
+    elapsed.microseconds = time.microseconds - player->time.microseconds;
+    player->time = time;
+    speed *= (int)((elapsed.microseconds / 1000000) / 0.05) + 1;
+    move_helper(elem, player, speed);
 }
 
 void my_movement(monster_t *elem, list *enemies, player_t *player)

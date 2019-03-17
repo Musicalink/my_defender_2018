@@ -7,17 +7,19 @@
 
 #include "defender.h"
 
-void totem_info(totem_t *totem, int i)
+void my_flip(monster_t *elem, int diff, list *enemies)
 {
-    printf("Totem %d touched\n", i);
-    printf("Value:\nType: %s\nLevel: %d\n", totem->type, totem->lvl);
-    printf("Level stat: %d\n", totem->stat->lvl);
-    printf("Attack: %d\nSpeed booster: %.2f\n", totem->stat->atk,
-        totem->stat->spd);
-    printf("Cooldown: %.2f\nMax Enemies: %d\n", totem->stat->cd,
-        totem->stat->max_e);
-    printf("rng: %d\ncst: %d\n", totem->stat->rng, totem->stat->cst);
-    printf("_________\n");
+    if (elem->road != diff && elem->road % 4 == 2) {
+        if (my_strcmp(elem->type, "minotaur") == 0)
+            sfSprite_setTexture(elem->spr, enemies->minotaur_r, sfTrue);
+        else
+            sfSprite_setTexture(elem->spr, enemies->penguin_r, sfTrue);
+    } else if (elem->road != diff && elem->road % 4 == 0) {
+        if (my_strcmp(elem->type, "minotaur") == 0)
+            sfSprite_setTexture(elem->spr, enemies->minotaur, sfTrue);
+        else
+            sfSprite_setTexture(elem->spr, enemies->penguin, sfTrue);
+    }
 }
 
 int monsters_remaining(list *list)
@@ -28,6 +30,15 @@ int monsters_remaining(list *list)
     for (; elem != NULL; elem = elem->next)
         count += (elem->alive == 1) ? 1 : 0;
     return (count);
+}
+
+void after_game(player_t *player, sfRenderWindow *window)
+{
+    free_end(player);
+    free(player);
+    if (player->launch_menu == 1) {
+        game_menu(init_menu(MENU), window);
+    }
 }
 
 int start_game(player_t *player, sfRenderWindow *window)
@@ -47,12 +58,6 @@ int start_game(player_t *player, sfRenderWindow *window)
             generate_wave(player);
         }
     }
-    free_end(player);
-    free(player);
-    if (player->launch_menu == 1) {
-        game_menu(init_menu(MENU), window);
-    }
-    if (player->launch_menu == 0)
-        sfRenderWindow_destroy(window);
+    after_game(player, window);
     return (0);
 }

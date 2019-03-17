@@ -34,7 +34,7 @@ int game_start(sfRenderWindow *window)
 {
     player_t *player = generate_game();
     player = totem_menu_gen(player);
-    player->monsters = monster_list_init();//perica.bekavac@ibm.com
+    player->monsters = monster_list_init();
     add_penguin(player->monsters, 1, 1);
     add_bull(player->monsters, 2, 1);
     player->clock = sfClock_create();

@@ -103,8 +103,6 @@ int is_enough_money(player_t *player, char *type);
 
 char *find_totem_texture(char *type, char *s);
 
-void totem_info(totem_t *totem, int i);
-
 void add_element_to_list(list *list, monster_t *elem);
 
 void add_penguin(list *enemies, int position, int wave);
@@ -167,6 +165,12 @@ int display_menu(menu_t *menu, sfRenderWindow *window);
 
 int game_menu(menu_t *menu, sfRenderWindow *window);
 
+void after_game(player_t *player, sfRenderWindow *window);
+
+void move_helper(monster_t *elem, player_t *player, int speed);
+
+totem_t *create_totem(totem_t *totem, char *type);
+
 #define MENU "./ressources/menu.jpg"
 #define GAME_BG "./ressources/game_bg.png"
 #define DARK_T "./ressources/dark.png"
@@ -184,6 +188,7 @@ int game_menu(menu_t *menu, sfRenderWindow *window);
 #define MINOTAUR_S "./ressources/meuh.ogg"
 #define MUSIC "./ressources/music.ogg"
 #define PAUSE_B "./ressources/pause.jpg"
+#define TITLE "Gold Rush"
 
 static const sfColor COLORS[] = {{.r=255, .g=0, .b=0, .a=36},
     {.r=255, .g=0, .b=0, .a=80}, {.r=0, .g=0, .b=255, .a=36},

@@ -27,21 +27,24 @@ sfText *gen_text(char *s, int y, int x)
 
 sfColor get_color(char *s, int i)
 {
-    if (my_strcmp(s, "fire") == 0)
-        return ((i == 0) ? COLORS[0] : COLORS[1]);
-    if (my_strcmp(s, "bubble") == 0)
-        return ((i == 0) ? COLORS[2] : COLORS[3]);
-    if (my_strcmp(s, "dark") == 0)
-        return ((i == 0) ? COLORS[6] : COLORS[7]);
-    if (my_strcmp(s, "storm") == 0)
-        return ((i == 0) ? COLORS[4] : COLORS[5]);
+    if (my_strcmp(s, "fire") == 0 || my_strcmp(s, "bubble") == 0) {
+        if (my_strcmp(s, "bubble") == 0)
+            return ((i == 0) ? COLORS[2] : COLORS[3]);
+        else
+            return ((i == 0) ? COLORS[0] : COLORS[1]);
+    }
+    if (my_strcmp(s, "dark") == 0 || my_strcmp(s, "storm") == 0) {
+        if (my_strcmp(s, "dark") == 0)
+            return ((i == 0) ? COLORS[6] : COLORS[7]);
+        else
+            return ((i == 0) ? COLORS[4] : COLORS[5]);
+    }
 }
 
 void gen_circle(totem_t *totem)
 {
     float width;
-    sfVector2f aselelelelalele = (sfVector2f){totem->pos.x + 25,
-        totem->pos.y + 40};
+    sfVector2f new_pos = (sfVector2f){totem->pos.x + 25, totem->pos.y + 40};
     sfColor color = get_color(totem->type, 0);
     sfColor color2 = get_color(totem->type, 1);
 
@@ -49,7 +52,7 @@ void gen_circle(totem_t *totem)
     sfCircleShape_setRadius(totem->circle, totem->stat->rng);
     width = sfCircleShape_getGlobalBounds(totem->circle).width / 2;
     sfCircleShape_setOrigin(totem->circle, (sfVector2f){width, width});
-    sfCircleShape_setPosition(totem->circle, aselelelelalele);
+    sfCircleShape_setPosition(totem->circle, new_pos);
     sfCircleShape_setFillColor(totem->circle, color);
     sfCircleShape_setOutlineThickness(totem->circle, 5);
     sfCircleShape_setOutlineColor(totem->circle, color2);
@@ -75,7 +78,6 @@ totem_t *generate_totem(float y, float x)
     sfSprite_setPosition(totem->spr, totem->pos);
     totem->pos.y = y;
     totem->pos.x = x;
-    totem->current_cd = -500;
     totem->current_er = 0;
     return (totem);
 }
