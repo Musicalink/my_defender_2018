@@ -51,7 +51,7 @@ typedef struct player {
     sfTime elapsed;
 } player_t;
 
-int pause_menu(sfRenderWindow *);
+int pause_menu(sfRenderWindow *, player_t *);
 
 menu_t *init_menu(char *);
 
