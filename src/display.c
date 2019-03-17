@@ -29,6 +29,15 @@ void draw_totem(sfRenderWindow *window, player_t *player, totem_t *totem)
     }
 }
 
+void draw_upgrade(player_t *player, sfRenderWindow *window)
+{
+    sfRenderWindow_drawSprite(window, player->upgrader_spr, NULL);
+    if (player->totems[player->m_sel]->stat->lvl >= 10)
+        sfText_setString(player->totems[player->m_sel]->cost, "");
+    sfRenderWindow_drawText(window, player->totems[player->m_sel]->level, NULL);
+    sfRenderWindow_drawText(window, player->totems[player->m_sel]->cost, NULL);
+}
+
 void display_game(player_t *player, sfRenderWindow *window)
 {
     sfRenderWindow_clear(window, sfBlack);
@@ -43,10 +52,7 @@ void display_game(player_t *player, sfRenderWindow *window)
         }
     if (player->market_d == 1)
         sfRenderWindow_drawSprite(window, player->market_spr, NULL);
-    else if (player->upgrader_d == 1) {
-        sfRenderWindow_drawSprite(window, player->upgrader_spr, NULL);
-        sfRenderWindow_drawText(window, player->totems[player->m_sel]->level, NULL);
-        sfRenderWindow_drawText(window, player->totems[player->m_sel]->cost, NULL);
-    }
+    else if (player->upgrader_d == 1)
+        draw_upgrade(player, window);
     sfRenderWindow_display(window);
 }
