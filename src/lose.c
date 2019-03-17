@@ -25,7 +25,7 @@ int lose(sfRenderWindow *window)
 
     while (sfRenderWindow_isOpen(window)) {
         display_lose(lose, window);
-	sfRenderWindow_display(window);
+        sfRenderWindow_display(window);
     }
 
 }
