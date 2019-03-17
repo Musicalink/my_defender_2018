@@ -26,6 +26,7 @@ player_t *generate_game(void)
     player->w_spr = sfSprite_create();
     player->w_txt = sfTexture_createFromFile(GAME_BG, NULL);
     sfSprite_setTexture(player->w_spr, player->w_txt, sfTrue);
+    player->launch_menu = 0;
     return (player);
 }
 

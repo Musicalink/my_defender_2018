@@ -22,7 +22,8 @@ SRC     =       src/main.c		\
                 src/display.c\
                 src/totem_builder.c\
                 src/event.c\
-		src/pause.c\
+				src/pause.c\
+				src/end_of_game.c\
 
 OBJ     =       $(SRC:.c=.o)
 

@@ -22,9 +22,11 @@ typedef struct menu {
     sfSprite *sprite;
     sfTexture *texture;
     sfIntRect rect;
+    int launch_game;
 } menu_t;
 
 typedef struct player {
+    int launch_menu;
     sfTime time;
     sfClock *clock;
     int money;
@@ -147,8 +149,25 @@ void generate_wave(player_t *player);
 
 void my_movement(monster_t *elem, list *enemies, player_t *player);
 
+void free_totem_list(player_t *player);
+
+void free_end(player_t *player);
+
+list *free_list(list *enemies);
+
 my_sound_t *generate_sound(char *path, int vol);
 
+sfIntRect create_rect(int left, int top, int width, int height);
+
+menu_t *init_menu(char *ressources);
+
+void check_mouse_pos(sfRenderWindow *window, menu_t *menu);
+
+int display_menu(menu_t *menu, sfRenderWindow *window);
+
+int game_menu(menu_t *menu, sfRenderWindow *window);
+
+#define MENU "./ressources/menu.jpg"
 #define GAME_BG "./ressources/game_bg.png"
 #define DARK_T "./ressources/dark.png"
 #define FIRE_T "./ressources/fire.png"

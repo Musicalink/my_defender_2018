@@ -43,6 +43,10 @@ totem_t *build_totem(totem_t *totem, char *type, player_t *player)
     sfSprite_setTexture(totem->spr, totem->text, sfTrue);
     totem->rect = create_IntRect(0, 0, 56, 120);
     sfSprite_setTextureRect(totem->spr, totem->rect);
+    totem->level = sfText_create();
+    totem->cost = sfText_create();
+    totem->level = gen_text("1", 1028, 1600);
+    totem->cost = gen_text("", 1028, 1500);
     totem = (my_strcmp(type, "fire") == 0) ? f_up(totem, player) : totem;
     totem = (my_strcmp(type, "dark") == 0) ? d_up(totem, player) : totem;
     totem = (my_strcmp(type, "bubble") == 0) ? b_up(totem, player) : totem;

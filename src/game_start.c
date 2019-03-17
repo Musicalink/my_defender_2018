@@ -30,60 +30,15 @@ int monsters_remaining(list *list)
     return (count);
 }
 
-list *free_list(list *enemies)
-{
-    monster_t *mon = enemies->head;
-    monster_t *tmp;
-
-    for (; mon != NULL; mon = mon->next) {
-        tmp = mon->next;
-        free(mon->type);
-        sfSprite_destroy(mon->spr);
-        free(mon);
-        mon = tmp;
-    }
-    enemies->size = 0;
-    enemies->head = NULL;
-    enemies->tail = NULL;
-    return (enemies);
-}
-
-void free_end(player_t *player)
-{
-    sfClock_destroy(player->clock);
-    sfText_destroy(player->money_t);
-    sfText_destroy(player->waves_t);
-    sfText_destroy(player->enemies_t);
-    sfSprite_destroy(player->w_spr);
-    sfTexture_destroy(player->w_txt);
-    sfTexture_destroy(player->upgrader_tex);
-    sfTexture_destroy(player->market_tex);
-    sfSprite_destroy(player->market_spr);
-    sfSprite_destroy(player->upgrader_spr);
-    free_list(player->monsters);
-    free(player->monsters);
-    for (int i = 0; player->totems[i] != NULL; i++) {
-        if (my_strcmp(player->totems[i]->type, "none") != 0) {
-            sfCircleShape_destroy(player->totems[i]->circle);
-            sfTexture_destroy(player->totems[i]->text);
-        }
-        free(player->totems[i]->type);
-        free(player->totems[i]->stat);
-        sfSprite_destroy(player->totems[i]->spr);
-        free(player->totems[i]);
-    }
-    free(player->totems);
-}
-
 int start_game(player_t *player, sfRenderWindow *window)
 {
     player->elapsed = sfClock_getElapsedTime(player->clock);
-    while (sfRenderWindow_isOpen(window)) {
-        player = my_clock(player, window);
+    while (sfRenderWindow_isOpen(window) && player->launch_menu == 0) {
         sfText_setString(player->money_t, my_itoa(player->money));
         sfText_setString(player->enemies_t, my_itoa(player->enemies_r));
         move_monster(player, window);
         display_game(player, window);
+        player = my_clock(player, window);
         player->enemies_r = monsters_remaining(player->monsters);
         if (player->enemies_r == 0) {
             player->monsters = free_list(player->monsters);
@@ -94,5 +49,10 @@ int start_game(player_t *player, sfRenderWindow *window)
     }
     free_end(player);
     free(player);
+    if (player->launch_menu == 1) {
+        game_menu(init_menu(MENU), window);
+    }
+    if (player->launch_menu == 0)
+        sfRenderWindow_destroy(window);
     return (0);
 }

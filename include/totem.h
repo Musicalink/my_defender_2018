@@ -31,6 +31,8 @@ typedef struct totem {
     sfIntRect rect;
     sfVector2f pos;
     sfCircleShape *circle;
+    sfText *level;
+    sfText *cost;
 } totem_t;
 
 static const totem_stats_t STORM_TOTEM_LVL[] = {

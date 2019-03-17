@@ -42,8 +42,7 @@ void check_mouse_pos(sfRenderWindow *window, menu_t *menu)
 
     if (mouse.x < 1245 && mouse.x > 778) {
         if (mouse.y > 372 && mouse.y < 529) {
-	    free(menu);
-            game_start(window);
+            menu->launch_game = 1;
         } else if (mouse.y > 651 && mouse.y < 807)
             sfRenderWindow_close(window);
     }
@@ -66,9 +65,11 @@ int display_menu(menu_t *menu, sfRenderWindow *window)
 
 int game_menu(menu_t *menu, sfRenderWindow *window)
 {
-    while (sfRenderWindow_isOpen(window)) {
+    menu->launch_game = 0;
+    while (sfRenderWindow_isOpen(window) && menu->launch_game == 0) {
         display_menu(menu, window);
         sfRenderWindow_display(window);
     }
-    sfRenderWindow_destroy(window);
+    if (menu->launch_game == 1)
+        game_start(window);
 }

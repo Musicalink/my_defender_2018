@@ -43,7 +43,10 @@ void display_game(player_t *player, sfRenderWindow *window)
         }
     if (player->market_d == 1)
         sfRenderWindow_drawSprite(window, player->market_spr, NULL);
-    else if (player->upgrader_d == 1)
+    else if (player->upgrader_d == 1) {
         sfRenderWindow_drawSprite(window, player->upgrader_spr, NULL);
+        sfRenderWindow_drawText(window, player->totems[player->m_sel]->level, NULL);
+        sfRenderWindow_drawText(window, player->totems[player->m_sel]->cost, NULL);
+    }
     sfRenderWindow_display(window);
 }
