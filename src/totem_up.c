@@ -22,7 +22,8 @@ totem_t *s_up(totem_t *totem, player_t *player)
     player->money -= totem->stat->cst;
     sfText_setString(totem->level, my_strcat("Level: ", my_itoa(totem->lvl)));
     sfText_setString(totem->cost, my_itoa(STORM_TOTEM_LVL[totem->lvl].cst));
-    gen_circle(totem);
+    if (totem->stat->rng != STORM_TOTEM_LVL[totem->lvl].rng || totem->lvl == 1)
+        gen_circle(totem);
     return (totem);
 }
 
@@ -41,7 +42,8 @@ totem_t *d_up(totem_t *totem, player_t *player)
     player->money -= totem->stat->cst;
     sfText_setString(totem->level, my_strcat("Level: ", my_itoa(totem->lvl)));
     sfText_setString(totem->cost, my_itoa(DARK_TOTEM_LVL[totem->lvl].cst));
-    gen_circle(totem);
+    if (totem->stat->rng != DARK_TOTEM_LVL[totem->lvl].rng || totem->lvl == 1)
+        gen_circle(totem);
     return (totem);
 }
 
@@ -60,7 +62,8 @@ totem_t *b_up(totem_t *totem, player_t *player)
     player->money -= totem->stat->cst;
     sfText_setString(totem->level, my_strcat("Level: ", my_itoa(totem->lvl)));
     sfText_setString(totem->cost, my_itoa(BUBBLE_TOTEM_LVL[totem->lvl].cst));
-    gen_circle(totem);
+    if (totem->stat->rng != BUBBLE_TOTEM_LVL[totem->lvl].rng || totem->lvl == 1)
+        gen_circle(totem);
     return (totem);
 }
 
@@ -79,6 +82,7 @@ totem_t *f_up(totem_t *totem, player_t *player)
     player->money -= totem->stat->cst;
     sfText_setString(totem->level, my_strcat("Level: ", my_itoa(totem->lvl)));
     sfText_setString(totem->cost, my_itoa(FIRE_TOTEM_LVL[totem->lvl].cst));
-    gen_circle(totem);
+    if (totem->stat->rng != FIRE_TOTEM_LVL[totem->lvl].rng || totem->lvl == 1)
+        gen_circle(totem);
     return (totem);
 }
