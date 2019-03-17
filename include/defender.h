@@ -157,7 +157,7 @@ my_sound_t *generate_sound(char *path, int vol);
 
 sfIntRect create_rect(int left, int top, int width, int height);
 
-menu_t *init_menu(char *ressources);
+menu_t *init_menu(char *resources);
 
 void check_mouse_pos(sfRenderWindow *window, menu_t *menu);
 
@@ -171,23 +171,23 @@ void move_helper(monster_t *elem, player_t *player, int speed);
 
 totem_t *create_totem(totem_t *totem, char *type);
 
-#define MENU "./ressources/menu.jpg"
-#define GAME_BG "./ressources/game_bg.png"
-#define DARK_T "./ressources/dark.png"
-#define FIRE_T "./ressources/fire.png"
-#define STORM_T "./ressources/storm.png"
-#define BUBBLE_T "./ressources/bubble.png"
-#define CONSTRUCT_TXT "./ressources/construct_menu.png"
-#define UPGRADER_TXT "./ressources/upgrade_menu.png"
-#define FONT "ressources/font.ttf"
-#define KAMIKAZE "./ressources/boumboum.png"
-#define MINOTAUR "./ressources/minotaure.png"
-#define KAMIKAZE_R "./ressources/boumboum_r.png"
-#define MINOTAUR_R "./ressources/minotaure_r.png"
-#define PENGUIN_S "./ressources/penguin.ogg"
-#define MINOTAUR_S "./ressources/meuh.ogg"
-#define MUSIC "./ressources/music.ogg"
-#define PAUSE_B "./ressources/pause.jpg"
+#define MENU "./resources/menu.jpg"
+#define GAME_BG "./resources/game_bg.png"
+#define DARK_T "./resources/dark.png"
+#define FIRE_T "./resources/fire.png"
+#define STORM_T "./resources/storm.png"
+#define BUBBLE_T "./resources/bubble.png"
+#define CONSTRUCT_TXT "./resources/construct_menu.png"
+#define UPGRADER_TXT "./resources/upgrade_menu.png"
+#define FONT "resources/font.ttf"
+#define KAMIKAZE "./resources/boumboum.png"
+#define MINOTAUR "./resources/minotaure.png"
+#define KAMIKAZE_R "./resources/boumboum_r.png"
+#define MINOTAUR_R "./resources/minotaure_r.png"
+#define PENGUIN_S "./resources/penguin.ogg"
+#define MINOTAUR_S "./resources/meuh.ogg"
+#define MUSIC "./resources/music.ogg"
+#define PAUSE_B "./resources/pause.jpg"
 #define TITLE "Gold Rush"
 
 static const sfColor COLORS[] = {{.r=255, .g=0, .b=0, .a=36},
