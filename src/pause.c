@@ -43,9 +43,9 @@ int check_ret(sfRenderWindow *win, player_t *player, int ret)
         return (1);
     else if (ret == 3)
         return (3);
-
     if (ret == 2)
         return (2);
+    return (0);
 }
 
 int pause_menu(sfRenderWindow *window, player_t *player)
